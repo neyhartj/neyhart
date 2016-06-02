@@ -3,7 +3,7 @@
 \docType{data}
 \name{UM.colors}
 \alias{UM.colors}
-\title{University of Minnesota Color Scheme}
+\title{University of Minnesota Color Palette}
 \format{A character vector of hexidecimal codes.}
 \source{
 \url{https://www.ur.umn.edu/brand/assets/pdf/secondary_colors_rgb.pdf}
