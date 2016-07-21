@@ -11,4 +11,6 @@
 #'
 tassel2fastPHASE <- function(hapmap) {
   
+  test
+  
 }
