@@ -12,7 +12,8 @@
 UMN.colors
 }
 \description{
-A vector of hexadecimal color codes that are designed to work well together with the University of Minnesota color scheme.
+A vector of hexadecimal color codes that are designed to work 
+well together with the University of Minnesota color scheme.
 }
 \keyword{datasets}
 
