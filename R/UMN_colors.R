@@ -1,6 +1,7 @@
 #' University of Minnesota Color Palette
 #'
-#' @description A vector of hexadecimal color codes that are designed to work well together with the University of Minnesota color scheme.
+#' @description A vector of hexadecimal color codes that are designed to work 
+#' well together with the University of Minnesota color scheme.
 #'
 #' @format A character vector of hexidecimal codes.
 #'

@@ -1,13 +1,11 @@
-Package: miscRutils
-Title: What the Package Does (one line, title case)
+Package: neyhart
+Title: My collection of useful R functions.
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Jeff", "Neyhart", email = "neyhartje@gmail.com", role = c("aut", "cre"))
+Description: A package of miscellaneous R functions that I use frequently in projects or leisure (nerd!). Functions are for a variety of purposes, including generating colors for plotting, file conversion, etc.
 Depends:
     R (>= 3.3.0)
-License: What license is it under?
+License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 5.0.1
-LinkingTo: Rcpp
-Imports: Rcpp
