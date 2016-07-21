@@ -32,13 +32,13 @@ tassel2fastPHASE <- function(hapmap = NULL, filein = NULL, fileout) {
   # Both hapmap and filein cannot be NULL
   if (all(is.null(hapmap), is.null(filein))) stop("'hapmap' and 'filein' cannot both be NULL.")
   # They also cannot both be provided
-  if (!all(is.null(hapmap), is.null(filein))) stop("'hapmap' and 'filein' cannot both be provided.")
+  if (!any(is.null(hapmap), is.null(filein))) stop("'hapmap' and 'filein' cannot both be provided.")
   
   # Verify data in
   if (!is.null(hapmap)) {
     hapmap <- as.data.frame(hapmap)
   } else { # Read in data if not provided
-    hapmap <- read.table(file = filein, header = TRUE, as.is = TRUE, check.names = TRUE, comment.char = "")
+    hapmap <- read.table(file = filein, header = TRUE, as.is = TRUE, check.names = FALSE, comment.char = "")
   }
   
   # Extract the positions
