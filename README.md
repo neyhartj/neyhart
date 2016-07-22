@@ -1,10 +1,20 @@
-# miscRutils
-A package of my personal random utilities in R
+# neyhart
+A package for various functions that I use often.
+
+## Author
+Jeff Neyhart
+
+## Introduction
+Sometimes I will write small R functions that are widely useful. This package is
+simply a compilation of those functions.
 
 ## Installation
-To install, run the following command (this assumes you have the R package 
-`devtools` installed):
+Install the developmental version from GitHub via the `devtools` package:
+```
+devtools::install_github("neyhartj/neyhart")
+```
 
-```
-devtools::install_github("neyhartj/miscRutils")
-```
+## Examples
+
+
+## References
