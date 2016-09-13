@@ -2,7 +2,6 @@
 
 export(UMN.color.palette)
 export(boot.cor)
-export(convert.hapmap)
+export(find)
 export(rpospois)
-export(tassel2fastPHASE)
 import(boot)
