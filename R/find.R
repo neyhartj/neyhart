@@ -2,7 +2,7 @@
 #' 
 #' @description 
 #' Wrapper of the \code{\link[utils]{apropos}} function for finding objects, but
-#' includes the ability to find objects based on class.
+#' includes the ability to find objects based on class. "c"find for "class" find.
 #' 
 #' @param what See \code{\link[utils]{apropos}}
 #' @param ignore.case See \code{\link[utils]{apropos}}
@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' 
-find <- function(what, ignore.case = TRUE, class = "any") {
+cfind <- function(what, ignore.case = TRUE, class = "any") {
   
   # Error handling
   if (!is.logical(ignore.case)) stop("'ignore.case' must be logical.")

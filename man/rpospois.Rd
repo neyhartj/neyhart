@@ -22,4 +22,3 @@ ensures non-zero counts for every random sample.
 rpospois(n = 10, lambda = 1)
 
 }
-
