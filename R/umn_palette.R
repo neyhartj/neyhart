@@ -64,6 +64,8 @@ umn_palette <- function(name = "Secondary_Tier1", n, type = c("discrete", "conti
 #' @description 
 #' This is re-exported from \code{\link{wesanderson}}.
 #' 
+#' @export
+#' 
 print.palette <- function(x, ...) {
   
     n <- length(x)

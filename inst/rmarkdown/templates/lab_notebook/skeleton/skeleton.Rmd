@@ -1,0 +1,30 @@
+---
+title: "Lab Notebook Title"
+date: "`r Sys.Date()`"
+output: 
+  html_notebook:
+    toc: true
+bibliography: C:/Users/Jeff/Documents/Literature/library.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+Description of activity/experiment.
+
+## Methods
+
+Some brief methods of the experiment.
+
+## Results
+
+Experimental results, including graphs
+
+## Discussion
+
+Some interpretation
+
+## References
