@@ -2,6 +2,8 @@
 #' 
 #' @import ggplot2
 #' 
+#' @export
+#' 
 theme_manhattan <- function() {
   
   theme_bw() +

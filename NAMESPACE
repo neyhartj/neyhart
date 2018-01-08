@@ -3,5 +3,6 @@
 S3method(print,palette)
 export(cfind)
 export(rpospois)
+export(theme_manhattan)
 export(umn_palette)
 import(ggplot2)
