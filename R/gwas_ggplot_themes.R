@@ -13,3 +13,21 @@ theme_manhattan <- function() {
           axis.text.x = element_text(angle = 45, hjust = 1))
   
 }
+
+
+#' ggplot2 theme for a poster
+#' 
+#' @import ggplot2
+#' 
+#' @export
+#' 
+theme_poster <- function() {
+  
+  theme_bw() +
+    theme(axis.text = element_text(size = 12),
+          axis.title = element_text(size = 16),
+          strip.text = element_text(size = 14),
+          legend.text = element_text(size = 12),
+          legend.title = element_text(size = 16))
+  
+}

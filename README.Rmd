@@ -1,19 +1,30 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-neyhart
-=======
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# neyhart
 
 A collection of useful, but disparate functions that I often use.
 
-Installation
-------------
+## Installation
 
 You can install neyhart from github with:
 
-``` r
+```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("neyhartj/neyhart")
 ```
 
-Functions
----------
+## Functions
+
+
