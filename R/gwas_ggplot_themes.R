@@ -29,5 +29,6 @@ theme_poster <- function() {
           strip.text = element_text(size = 14),
           legend.text = element_text(size = 14),
           legend.title = element_text(size = 16),
-          title = element_text(size = 16))
+          title = element_text(size = 16),
+          panel.grid = element_blank())
 }
