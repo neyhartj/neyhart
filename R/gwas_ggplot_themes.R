@@ -28,6 +28,6 @@ theme_poster <- function() {
           axis.title = element_text(size = 16),
           strip.text = element_text(size = 14),
           legend.text = element_text(size = 14),
-          legend.title = element_text(size = 16))
-  
+          legend.title = element_text(size = 16),
+          title = element_text(size = 16))
 }
