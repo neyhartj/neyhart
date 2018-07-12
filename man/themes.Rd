@@ -2,16 +2,20 @@
 % Please edit documentation in R/publication_themes.R
 \name{theme_acs}
 \alias{theme_acs}
+\alias{theme_pnas}
 \title{Plotting theme for publications}
 \usage{
 theme_acs(base_size = 8)
+
+theme_pnas(base_size = 6)
 }
 \description{
 Themes for ggplot2 designed for compliance with variance scientific journals.
 }
 \details{
 \describe{
-  \item{theme_acs}{Theme for the American Society of Agronomy (ASA), Crop Science Society of America (CSSA), and
-  Soil Science Society of America (SSSA).}
+  \item{\code{theme_acs}}{Theme for the American Society of Agronomy (ASA), 
+  Crop Science Society of America (CSSA), and Soil Science Society of America (SSSA).}
+  \item{\code{theme_pnas}}{Theme for the Proceedings of the National Academy of Sciences.}
 }
 }
