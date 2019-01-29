@@ -1,0 +1,10 @@
+bookdown::pdf_book:
+  template: thesis_default.tex
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: true
+  number_sections: false
+  toc_unnumbered: true
+  toc_bib: true
+  toc_appendix: true
+

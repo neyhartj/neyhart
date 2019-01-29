@@ -1,23 +1,63 @@
-#' Plotting theme for a poster
+#' Plotting theme for presentations or posters
 #' 
 #' @description 
-#' Theme for ggplot2 designed for scientific poster displays.
+#' Theme for ggplot2 designed for posters or presentations
+#' 
+#' @rdname pres_themes
+#' 
+#' @details 
+#' 
+#' \describe{
+#'   \item{\code{theme_poster}}{Theme for posters.}
+#'   \item{\code{theme_presentation}}{Theme for presentations.}
+#'   \item{\code{theme_presentation2}}{Alternate theme for presentations.}
+#' }
 #' 
 #' @import ggplot2
 #' 
 #' @export
 #' 
-theme_poster <- function() {
+theme_poster <- function(base_size = 16) {
   
   theme_bw() +
-    theme(axis.text = element_text(size = 12),
-          axis.title = element_text(size = 16),
-          strip.text = element_text(size = 14),
-          legend.text = element_text(size = 14),
-          legend.title = element_text(size = 16),
-          title = element_text(size = 16),
+    theme(axis.text = element_text(size = base_size * 0.75),
+          axis.title = element_text(size = base_size),
+          strip.text = element_text(size = base_size * 0.875),
+          legend.text = element_text(size = base_size * 0.875),
+          legend.title = element_text(size = base_size),
+          title = element_text(size = base_size),
           panel.grid = element_blank())
 }
+
+#' Plotting theme for presentations or posters
+#' 
+#' @rdname pres_themes
+#' 
+#' @export
+#' 
+theme_presentation <- function(base_size = 16) {
+  theme_minimal(base_size = base_size) %+replace%
+    theme(strip.background = element_rect(fill = "grey85", linetype = 0),
+          legend.background = element_rect(fill = "white", linetype = 0), 
+          complete = TRUE)
+} 
+
+#' Plotting theme for presentations or posters
+#' 
+#' @rdname pres_themes
+#' 
+#' @export
+#' 
+theme_presentation2 <- function(base_size = 16) {
+  theme_minimal(base_size = base_size) %+replace%
+    theme(strip.background = element_rect(fill = "grey85", linetype = 0),
+          legend.background = element_rect(fill = "white", linetype = 0), 
+          axis.ticks = element_line(), 
+          panel.grid = element_blank(),
+          panel.border = element_rect(fill = alpha("white", 0), color = "grey85"),
+          complete = TRUE)
+} 
+
 
 
 #' Plotting theme for publications
@@ -48,6 +88,7 @@ theme_acs <- function(base_size = 8) {
 }
 
 
+#' Plotting theme for publications
 #'
 #' @rdname themes
 #' 

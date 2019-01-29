@@ -1,0 +1,4 @@
+name: Thesis Book
+description: >
+  Template for a thesis created using bookdown
+create_dir: true
