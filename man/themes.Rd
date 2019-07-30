@@ -3,11 +3,14 @@
 \name{theme_acs}
 \alias{theme_acs}
 \alias{theme_pnas}
+\alias{theme_genetics}
 \title{Plotting theme for publications}
 \usage{
 theme_acs(base_size = 8)
 
 theme_pnas(base_size = 6)
+
+theme_genetics(base_size = 10)
 }
 \description{
 Themes for ggplot2 designed for compliance with variance scientific journals.
@@ -17,5 +20,6 @@ Themes for ggplot2 designed for compliance with variance scientific journals.
   \item{\code{theme_acs}}{Theme for the American Society of Agronomy (ASA), 
   Crop Science Society of America (CSSA), and Soil Science Society of America (SSSA).}
   \item{\code{theme_pnas}}{Theme for the Proceedings of the National Academy of Sciences.}
+  \item{\code{theme_genetics}}{Theme for GENETICS/G3.}
 }
 }

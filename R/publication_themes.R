@@ -73,6 +73,7 @@ theme_presentation2 <- function(base_size = 16) {
 #'   \item{\code{theme_acs}}{Theme for the American Society of Agronomy (ASA), 
 #'   Crop Science Society of America (CSSA), and Soil Science Society of America (SSSA).}
 #'   \item{\code{theme_pnas}}{Theme for the Proceedings of the National Academy of Sciences.}
+#'   \item{\code{theme_genetics}}{Theme for GENETICS/G3.}
 #' }
 #' 
 #' @import ggplot2
@@ -104,6 +105,22 @@ theme_pnas <- function(base_size = 6) {
   
 }
 
+
+#' Plotting theme for publications
+#'
+#' @rdname themes
+#' 
+#' @export
+#' 
+theme_genetics <- function(base_size = 10) {
+  
+  theme_classic(base_size = base_size) %+replace%
+    theme(panel.grid = element_blank(),
+          strip.background = element_rect(fill = "grey85", color = "gray85", size = 0),
+          axis.title = element_text(size = base_size),
+          legend.text = element_text(size = base_size))
+  
+}
 
 
 

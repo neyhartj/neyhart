@@ -11,6 +11,7 @@
 ztrans <- function(x) 0.5 * (log((1 + x) / (1 - x)))
 
 
+#' Z-transformation
 #' 
 #' @rdname ztrans
 #' 
