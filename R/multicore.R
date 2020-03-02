@@ -64,7 +64,8 @@ coreApply <- function(X, FUN, check.cores = FALSE) {
   # Check this against the number of cores in the system, if requested
   if (check.cores) {
     n_cores_avail <- detectCores()
-    if (n_core_requested > n_cores_avail) stop ("The number of requested cores is greater than the number of available cores.")
+    if (n_core_requested > n_cores_avail) 
+      stop ("The number of requested cores is greater than the number of available cores.")
     
   }
   

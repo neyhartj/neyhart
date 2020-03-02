@@ -25,6 +25,32 @@ as_replaced_factor <- function(x, replacement) {
   factor(x_repl, levels = replacement)
 }
 
+#' Set a factor with contrasts that sum-to-zero
+#' 
+#' @description 
+#' A wrapper of \code{\link[stats]{contr.sum}}, but the resulting contrasts matrix included column names
+#' and is easier for extracting coefficients from a fitted model object
+#' 
+#' @param x A factor.
+#' @param drop.levels Logical. Should unused levels be dropped?
+#' 
+#' @export
+#' @importFrom stats contr.sum contrasts
+#' 
+fct_contr_sum <- function(x, drop.levels = FALSE) {
+  stopifnot(is.factor(x))
+  stopifnot(is.logical(drop.levels))
+  
+  # Drop levels, if called for 
+  x1 <- if (drop.levels) droplevels(x = x) else x
+  
+  # Redefine contrasts as sum-to-zero
+  x1_contrasts <- contr.sum(levels(x1))
+  colnames(x1_contrasts) <- head(levels(x1), -1)
+  contrasts(x1) <- x1_contrasts
+  return(x1)
+}
+
 
 
 
