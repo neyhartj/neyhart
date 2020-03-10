@@ -1,0 +1,53 @@
+---
+title: "Manuscript Title"
+
+output:
+  word_document:
+    reference_docx: manuscript_template.docx
+    pandoc_args:
+      - '--lua-filter=scholarly-metadata.lua'
+      - '--lua-filter=author-info-blocks.lua'
+    
+    
+bibliography: C:/GoogleDrive/Literature/MendeleyLibrary/library.bib
+biblio-style: C:/GoogleDrive/Writing/Resources/BibliographyStyles/trisocieties
+
+institute:
+  - one: Department of Agronomy and Plant Genetics, University of Minnesota
+  - two: GEMS Agroinformatics Initiative, University of Minnesota
+
+author:
+  - Jeffrey L. Neyhart:
+      institute: one, two
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+# Abstract
+
+Abstract here
+
+# Introduction
+
+Description of activity/experiment.
+
+# Methods and Materials
+
+Some brief methods of the experiment.
+
+# Results
+
+Experimental results, including graphs
+
+# Discussion
+
+Some interpretation
+
+
+# References

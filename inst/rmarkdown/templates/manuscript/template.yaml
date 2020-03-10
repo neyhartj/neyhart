@@ -1,0 +1,4 @@
+name: Manuscript (Word Document)
+description: >
+  Template for creating a word document manuscript.
+create_dir: true
