@@ -2,23 +2,39 @@
 % Please edit documentation in R/new_project.R
 \name{new_project}
 \alias{new_project}
-\title{Set up a new project}
+\alias{new_analysis}
+\alias{new_poster}
+\title{Create a new project}
 \usage{
-new_project(project.name, dir = ".", use.git = TRUE, use.msi = TRUE)
+new_project(project.name, dir = ".", type = c("analysis", "poster",
+  "package"))
+
+new_analysis(project.name, dir = ".", use.git = TRUE, use.msi = TRUE)
+
+new_poster(project.name, dir = ".", use.git = TRUE, use.msi = TRUE)
 }
 \arguments{
 \item{project.name}{The name of the project.}
 
 \item{dir}{The root directory of the new project.}
-
-\item{use.msi}{Logical: should the project be setup for use on a remote server?}
-
-\item{use.this}{Logical: should a git repository be initialized?}
 }
 \description{
-This function uses the \code{\link[usethis]{usethis-package}} package to set up a new
-R project in RSudio.
+This function performs the setup for creating new projects of various types, 
+including analyses, posters, and packages.
 }
 \details{
-This function create a new project and does the following:
+The function supports the creation of projects of the following types:
+
+\describe{
+  \item{analysis}{Directory setup and template scripts for conducting an analysis}
+  \item{poster}{Directory setup and template copying for producing a poster in LaTeX}
+  \item{package}{Setup for creating a new R package}
 }
+}
+\section{Functions}{
+\itemize{
+\item \code{new_analysis}: 
+
+\item \code{new_poster}: 
+}}
+

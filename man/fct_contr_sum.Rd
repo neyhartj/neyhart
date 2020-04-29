@@ -2,16 +2,28 @@
 % Please edit documentation in R/misc.R
 \name{fct_contr_sum}
 \alias{fct_contr_sum}
-\title{Set a factor with contrasts that sum-to-zero}
+\alias{fct_contr_check_trt}
+\title{Setting factor contrasts}
 \usage{
 fct_contr_sum(x, drop.levels = FALSE)
+
+fct_contr_check_trt(x, checks, drop.levels = FALSE)
 }
 \arguments{
 \item{x}{A factor.}
 
 \item{drop.levels}{Logical. Should unused levels be dropped?}
+
+\item{checks}{Levels of the factor \code{x} corresponding to "checks"}
 }
 \description{
+Functions for manipulating the contrasts of factors.
+
 A wrapper of \code{\link[stats]{contr.sum}}, but the resulting contrasts matrix included column names
 and is easier for extracting coefficients from a fitted model object
 }
+\section{Functions}{
+\itemize{
+\item \code{fct_contr_check_trt}: 
+}}
+
