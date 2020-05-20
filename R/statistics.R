@@ -185,7 +185,7 @@ crossv_loo_grouped <- function(data, id = ".id") {
   # Package into tibble
   grp_keys[["train"]] <- train_list
   grp_keys[["test"]] <- test_list
-  grp_keys[[id]] <- unique(grp_ind)
+  grp_keys[[id]] <- seq_along(grp_keys[[1]])
   
   return(grp_keys)
 
