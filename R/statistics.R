@@ -172,22 +172,21 @@ crossv_loo_grouped <- function(data, id = ".id") {
   
   # Get the group keys
   grp_keys <- group_keys(data)
-  # Get group indices
-  grp_ind <- group_indices(data)
+  ## Split rows by group
+  grp_rows <- group_rows(data)
   
   ## Ungroup the data frame
   df <- ungroup(data)
-  # Generate integer vector of rows
-  rows <- seq_len(nrow(df))
-
+  
   # For each key, outer join for train and inner join for test
-  train_list <- lapply(X = unique(grp_ind), function(i) resample(data = df, idx = rows[! grp_ind %in% i]) )
-  test_list <- lapply(X = unique(grp_ind), function(i) resample(data = df, idx = rows[grp_ind %in% i]) )
-
+  test_list <- lapply(X = grp_rows, FUN = resample, data = df)
+  train_list <- lapply(X = grp_rows, FUN = function(rows) resample(data = df, idx = setdiff(unlist(grp_rows), rows)))
+  
   # Package into tibble
   grp_keys[["train"]] <- train_list
   grp_keys[["test"]] <- test_list
   grp_keys[[id]] <- unique(grp_ind)
   
   return(grp_keys)
+
 }
