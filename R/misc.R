@@ -90,3 +90,21 @@ fct_contr_check_trt <- function(x, checks, drop.levels = FALSE) {
 }
 
 
+
+#' Return the size of objects in the environment
+#' 
+#' @import dplyr
+#' @import purrr
+#' 
+#' @export
+#' 
+object_size <- function(unit = "auto") {
+  
+  objects <- ls(envir = .GlobalEnv)
+  size <- map(objects, ~object.size(x = get(.)))
+  size_num <- as.numeric(unlist(size))
+  size2 <- map_chr(size, ~format(., unit = unit))
+  
+  tibble(object = objects, size = size2)[order(size_num, decreasing = TRUE),]
+  
+}

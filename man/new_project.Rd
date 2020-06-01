@@ -4,6 +4,7 @@
 \alias{new_project}
 \alias{new_analysis}
 \alias{new_poster}
+\alias{new_package}
 \title{Create a new project}
 \usage{
 new_project(project.name, dir = ".", type = c("analysis", "poster",
@@ -11,7 +12,9 @@ new_project(project.name, dir = ".", type = c("analysis", "poster",
 
 new_analysis(project.name, dir = ".", use.git = TRUE, use.msi = TRUE)
 
-new_poster(project.name, dir = ".", use.git = TRUE, use.msi = TRUE)
+new_poster(project.name, dir = ".", use.git = TRUE, use.msi = FALSE)
+
+new_package(project.name, dir = ".", use.git = TRUE, use.msi = FALSE)
 }
 \arguments{
 \item{project.name}{The name of the project.}
@@ -36,5 +39,7 @@ The function supports the creation of projects of the following types:
 \item \code{new_analysis}: 
 
 \item \code{new_poster}: 
+
+\item \code{new_package}: 
 }}
 

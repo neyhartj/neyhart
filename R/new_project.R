@@ -33,10 +33,15 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
   
   ## Prompt user for using git or msi
   use_git <- ui_yeah("Initialize a git repository?")
-  use_msi <- ui_yeah("Provide templates for submitting scripts to MSI?")
+  # MSI only if the project type is analysis
+  if (type == "analysis") {
+    use_msi <- ui_yeah("Provide templates for submitting scripts to MSI?")
+  } else {
+    use_msi <- FALSE
+  }
   
   ## Choose function based on the project type
-  fun <- switch(type, analysis = new_analysis, poster = new_poster)
+  fun <- switch(type, analysis = new_analysis, poster = new_poster, package = new_package)
   # Run the function
   fun(project.name = project.name, dir = dir, use.git = use_git, use.msi = use_msi)
          
@@ -110,7 +115,7 @@ new_analysis <- function(project.name, dir = ".", use.git = TRUE, use.msi = TRUE
 #' @import usethis
 #' @export
 #' 
-new_poster <- function(project.name, dir = ".", use.git = TRUE, use.msi = TRUE) {
+new_poster <- function(project.name, dir = ".", use.git = TRUE, use.msi = FALSE) {
   
   ## Error
   stopifnot(is.character(project.name))
@@ -184,5 +189,48 @@ new_poster <- function(project.name, dir = ".", use.git = TRUE, use.msi = TRUE) 
 }
   
   
+ 
+#' @describeIn new_project
+#' 
+#' @import usethis
+#' @export
+#' 
+new_package <- function(project.name, dir = ".", use.git = TRUE, use.msi = FALSE) {
   
+  ## Error
+  stopifnot(is.character(project.name))
+  stopifnot(is.character(dir))
+  stopifnot(is.logical(use.git))
+  stopifnot(is.logical(use.msi))
+  
+  # Create a path for the new project
+  path <- file.path(dir, project.name)
+  
+  ## Create the package
+  create_package(path = path, rstudio = TRUE, open = FALSE)
+  
+  # Set the active project to this project
+  proj_set(path = path)
+  
+  ## Create a readme
+  use_readme_rmd(open = FALSE)
+  # Create a license
+  use_mit_license(name = "Author")
+  
+  ## Initialize a git repo, if called
+  if (use.git) {
+    
+    use_git()
+    
+    ## Set results and figures and readme to gitignore
+    use_git_ignore(ignores = "README.Rmd")
+    
+  }
+  
+  # Notify the user
+  cat("\n")
+  ui_done(paste0("Package '", project.name, "' created."))
+  
+}
+
   

@@ -190,3 +190,77 @@ crossv_loo_grouped <- function(data, id = ".id") {
   return(grp_keys)
 
 }
+
+
+#' Rapid cross-validation without removing samples
+#' 
+#' @description 
+#' Implements cross-validation according to Gianola and Schon 2016. Returns
+#' RMSE and r-squared
+#' 
+#' @param object A fitted model object
+#' @param index A list of indices for leave-n-out cross-validation (i.e. the 
+#' training set)
+#' 
+#' @examples 
+#' fit <- lm(Sepal.Length ~ ., iris)
+#' 
+#' indices <- lapply(X = crossv_loo_grouped(group_by(iris, Species))$train, "[[", "idx")
+#' 
+#' @import stats
+#' @importFrom MASS ginv
+#' 
+#' @export
+#' 
+rapid_cv <- function(object, index) {
+  
+  # Get the model frame
+  mf <- model.frame(object)
+  # Model matrix and crossprod inverse
+  X <- model.matrix(object)
+  XtX_inv <- solve(crossprod(X))
+  # Response
+  y <- model.response(mf)
+  # Coefficients
+  beta_hat <- coef(object)
+  
+  # Iterate over indices
+  cv_out <- lapply(X = index, FUN = function(modelInd) {
+    # Subset X for the d testing datapoints
+    X_d <- X[-modelInd,,drop = FALSE]
+    d <- nrow(X_d)
+    # H matrix
+    H_d <- tcrossprod(X_d %*% XtX_inv, X_d)
+    H_d_inv <- ginv(diag(d) - H_d)
+    # Residuals
+    e_d <- y[-modelInd] - X_d %*% beta_hat
+    
+    # New betas
+    beta_hat_holdout <- beta_hat - (tcrossprod(XtX_inv, X_d) %*% H_d_inv %*% e_d)
+    
+    # yhat
+    y_hat <- X_d %*% beta_hat_holdout
+    # MSE
+    mse <- (crossprod(e_d / d, H_d_inv^2) %*% e_d)
+    
+    # Return a list
+    list(y_hat = y_hat, mse = mse)
+    
+  })
+  
+  ## Pull out y
+  y_hat_all <- do.call("rbind", lapply(X = cv_out, FUN = "[[", "y_hat"))
+  
+  # Calculate metrics and return
+  R2 <- cor(y_hat_all, y)^2
+  mse <- mean((y - y_hat_all)^2)
+  
+  c(R2 = R2, MSE = mse, RMSE = sqrt(mse))
+  
+}
+
+
+
+
+
+
