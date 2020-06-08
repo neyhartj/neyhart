@@ -4,13 +4,15 @@
 \alias{rapid_cv}
 \title{Rapid cross-validation without removing samples}
 \usage{
-rapid_cv(object, index)
+rapid_cv(object, index, rapid = TRUE)
 }
 \arguments{
 \item{object}{A fitted model object}
 
 \item{index}{A list of indices for leave-n-out cross-validation (i.e. the 
 training set)}
+
+\item{rapid}{Logical; should the rapid method be used?}
 }
 \description{
 Implements cross-validation according to Gianola and Schon 2016. Returns

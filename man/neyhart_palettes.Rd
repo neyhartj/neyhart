@@ -4,7 +4,9 @@
 \name{neyhart_palettes}
 \alias{neyhart_palettes}
 \title{Custom color palettes}
-\format{A list of vectors containing hexadecimal color codes.}
+\format{
+A list of vectors containing hexadecimal color codes.
+}
 \source{
 \url{https://www.ur.umn.edu/brand/assets/pdf/secondary_colors_rgb.pdf}
 }

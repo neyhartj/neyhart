@@ -4,8 +4,7 @@
 \alias{umn_palette}
 \title{University of Minnesota Color Generator}
 \usage{
-umn_palette(name = "Secondary_Tier1", n, type = c("discrete",
-  "continous"))
+umn_palette(name = "Secondary_Tier1", n, type = c("discrete", "continous"))
 }
 \arguments{
 \item{name}{The name of the secondary color tier. Options are "Secondary_Tier1",

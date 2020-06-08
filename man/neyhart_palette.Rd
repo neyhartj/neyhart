@@ -4,8 +4,11 @@
 \alias{neyhart_palette}
 \title{Custom color palettes}
 \usage{
-neyhart_palette(name = c("umn1", "umn2", "umn3", "barley", "fall"), n,
-  type = c("discrete", "continuous"))
+neyhart_palette(
+  name = c("umn1", "umn2", "umn3", "barley", "fall"),
+  n,
+  type = c("discrete", "continuous")
+)
 }
 \arguments{
 \item{name}{The name of the palette. See \emph{Details} for palette name options.}

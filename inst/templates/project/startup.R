@@ -19,7 +19,7 @@ result_dir <- file.path(proj_dir, "Results")
 
 
 ######
-# Startup below for MSI
+# MSI startup begins here
 ######
 
 # Source the project functions

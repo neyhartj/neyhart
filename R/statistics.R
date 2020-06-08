@@ -201,6 +201,7 @@ crossv_loo_grouped <- function(data, id = ".id") {
 #' @param object A fitted model object
 #' @param index A list of indices for leave-n-out cross-validation (i.e. the 
 #' training set)
+#' @param rapid Logical; should the rapid method be used?
 #' 
 #' @examples 
 #' fit <- lm(Sepal.Length ~ ., iris)
@@ -212,7 +213,7 @@ crossv_loo_grouped <- function(data, id = ".id") {
 #' 
 #' @export
 #' 
-rapid_cv <- function(object, index) {
+rapid_cv <- function(object, index, rapid = TRUE) {
   
   # Get the model frame
   mf <- model.frame(object)
@@ -224,32 +225,57 @@ rapid_cv <- function(object, index) {
   # Coefficients
   beta_hat <- coef(object)
   
-  # Iterate over indices
-  cv_out <- lapply(X = index, FUN = function(modelInd) {
-    # Subset X for the d testing datapoints
-    X_d <- X[-modelInd,,drop = FALSE]
-    d <- nrow(X_d)
-    # H matrix
-    H_d <- tcrossprod(X_d %*% XtX_inv, X_d)
-    H_d_inv <- ginv(diag(d) - H_d)
-    # Residuals
-    e_d <- y[-modelInd] - X_d %*% beta_hat
+  if (rapid) {
+  
+    # Iterate over indices
+    cv_out <- lapply(X = index, FUN = function(modelInd) {
+      # Subset X for the d testing datapoints
+      X_d <- X[-modelInd,,drop = FALSE]
+      d <- nrow(X_d)
+      # H matrix
+      H_d <- tcrossprod(X_d %*% XtX_inv, X_d)
+      H_d_inv <- ginv(diag(d) - H_d)
+      # Residuals
+      e_d <- y[-modelInd] - X_d %*% beta_hat
+      
+      # New betas
+      beta_hat_holdout <- beta_hat - (tcrossprod(XtX_inv, X_d) %*% H_d_inv %*% e_d)
+      
+      # yhat
+      y_hat <- X_d %*% beta_hat_holdout
+      # return
+      y_hat
+      
+    })
     
-    # New betas
-    beta_hat_holdout <- beta_hat - (tcrossprod(XtX_inv, X_d) %*% H_d_inv %*% e_d)
+  } else {
     
-    # yhat
-    y_hat <- X_d %*% beta_hat_holdout
-    # MSE
-    mse <- (crossprod(e_d / d, H_d_inv^2) %*% e_d)
+    # Iterate over indices
+    cv_out <- lapply(X = index, FUN = function(modelInd) {
+      # Subset X for the d testing datapoints
+      X_d <- X[-modelInd,,drop = FALSE]
+      d <- nrow(X_d)
+      # H matrix
+      H_d <- tcrossprod(X_d %*% XtX_inv, X_d)
+      H_d_inv <- ginv(diag(d) - H_d)
+      # Residuals
+      e_d <- y[-modelInd] - X_d %*% beta_hat
+      
+      # New betas
+      beta_hat_holdout <- beta_hat - (tcrossprod(XtX_inv, X_d) %*% H_d_inv %*% e_d)
+      
+      # yhat
+      y_hat <- X_d %*% beta_hat_holdout
+      # return
+      y_hat
+      
+    })
     
-    # Return a list
-    list(y_hat = y_hat, mse = mse)
     
-  })
+  }
   
   ## Pull out y
-  y_hat_all <- do.call("rbind", lapply(X = cv_out, FUN = "[[", "y_hat"))
+  y_hat_all <- unlist(y_hat)
   
   # Calculate metrics and return
   R2 <- cor(y_hat_all, y)^2

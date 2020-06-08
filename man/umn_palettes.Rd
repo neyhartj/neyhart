@@ -4,7 +4,9 @@
 \name{umn_palettes}
 \alias{umn_palettes}
 \title{University of Minnesota Color Palette}
-\format{A nested list of character vectors of hexidecimal codes.}
+\format{
+A nested list of character vectors of hexidecimal codes.
+}
 \source{
 \url{https://www.ur.umn.edu/brand/assets/pdf/secondary_colors_rgb.pdf}
 }
