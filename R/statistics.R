@@ -42,6 +42,46 @@ zexp <- function(x) (exp(2 * x) - 1) / (exp(2 * x) + 1)
 
 
 
+#' Mean, standard errors, and confidence intervals of samples
+#' 
+#' @param x A numeric vector
+#' @param mu A numer indicating the true value of the mean
+#' @param alternative A character specifying the alternative hypothesis with
+#' respect to \code{mu}.
+#' @param level The confidence level, or \eqn{1 - \alpha}.
+#' @param return.list Logical. Should the output be a list (TRUE) or a vector (FALSE)?
+#' 
+#' @importFrom stats t.test
+#' 
+#' @export
+#' 
+confidInt <- function(x, mu = 0, alternative = c("two.sided", "less", "greater"),
+                      level = 0.95, return.list = TRUE) {
+  
+  alternative <- match.arg(alternative)
+  stopifnot(is.logical(return.list))
+  stopifnot(level >= 0 & level <= 1)
+  stopifnot(is.numeric(mu))
+  stopifnot(is.numeric(x))
+  
+  ## Perform a t.test
+  ttest_out <- t.test(x = x, mu = mu, alternative = alternative, conf.level = level)
+  
+  # Output vector
+  out <- setNames(object = c(ttest_out$estimate, ttest_out$estimate / ttest_out$statistic,
+                             ttest_out$conf.int),
+                  nm = c("mean", "se", "lower", "upper"))
+  
+  if (return.list) as.list(out) else out
+  
+}
+
+
+
+
+
+
+
 #' Generalized bootstrapper
 #' 
 #' @description Computes bootstrap resamples of a statistic
