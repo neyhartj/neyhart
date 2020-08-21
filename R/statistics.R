@@ -55,21 +55,23 @@ zexp <- function(x) (exp(2 * x) - 1) / (exp(2 * x) + 1)
 #' 
 #' @export
 #' 
-confidInt <- function(x, mu = 0, alternative = c("two.sided", "less", "greater"),
-                      level = 0.95, return.list = TRUE) {
+confidInt <- function(x, level = 0.95, return.list = TRUE, na.rm = FALSE) {
   
-  alternative <- match.arg(alternative)
   stopifnot(is.logical(return.list))
   stopifnot(level >= 0 & level <= 1)
-  stopifnot(is.numeric(mu))
-  stopifnot(is.numeric(x))
   
-  ## Perform a t.test
-  ttest_out <- t.test(x = x, mu = mu, alternative = alternative, conf.level = level)
+  alpha <- 1 - level
+  
+  x1 <- if (na.rm) x[!is.na(x)] else x
+  
+  ## Calculate the sample mean
+  x_bar <- mean(x = x1)
+  se <- sd(x = x1) / sqrt(length(x1))
+  
+  conf_diff <- se * qt(p = 1 - (alpha / 2), df = length(x1) - 1)
   
   # Output vector
-  out <- setNames(object = c(ttest_out$estimate, ttest_out$estimate / ttest_out$statistic,
-                             ttest_out$conf.int),
+  out <- setNames(object = c(x_bar, se, x_bar - conf_diff, x_bar + conf_diff),
                   nm = c("mean", "se", "lower", "upper"))
   
   if (return.list) as.list(out) else out
@@ -176,17 +178,19 @@ bootstrap <- function(x, y = NULL, fun, boot.reps = 1000, alpha = 0.05) {
 
 
 
-#' Generate leave-one-out resamples using a grouped \code{data.frame}
+#' Generate cross-validation resamples using a grouped \code{data.frame}
 #' 
 #' @description 
-#' Expands the capability of the \code{\link[modelr]{crossv_loo}} function 
-#' such that groups in a grouped data frame form the basis of folds to be
-#' "left out" of a model training set for cross-validation.
+#' Expands the capability of the \code{\link[modelr]{crossv_loo}} and 
+#' \code{\link[modelr]{crossv_mc}} functions such that groups in a grouped
+#' data frame form the basis of folds to be "left out" of a model training set 
+#' for cross-validation.
 #' 
 #' @param data A grouped data frame.
 #' @param id Name of variable that gives each training set a unique integer id.
 #' 
 #' @examples 
+#' 
 #' # Normal crossv_loo
 #' cv_iris <- modelr::crossv_loo(iris)
 #' 
@@ -230,6 +234,69 @@ crossv_loo_grouped <- function(data, id = ".id") {
   return(grp_keys)
 
 }
+
+
+#' 
+#' @examples 
+#' 
+#' library(agridat)
+#' wheat <- vargas.wheat2.yield
+#' 
+#' # Normal crossv_mc
+#' cv_wheat <- modelr::crossv_mc(data = wheat, n = 10, test = 0.25)
+#' 
+#' # Note that partitions are made across environments or genotypes
+#' 
+#' # Use the new function
+#' cv_wheat2 <- crossv_mc_grouped(data = group_by(wheat, env), n = 15)
+#' 
+#' # Note that partitions are made according to the group
+#' 
+#' @rdname crossv_loo_grouped
+#' 
+#' @export
+#'
+crossv_mc_grouped <- function(data, n, test = 0.25, id = ".id") {
+  
+  stopifnot(is.data.frame(data))
+  stopifnot(is_grouped_df(data))
+  stopifnot(is.character(id))
+  
+
+  # Get the group keys
+  grp_keys <- group_keys(data)
+  ## Split rows by group
+  grp_rows <- group_rows(data)
+  
+  ## Ungroup the data frame
+  df <- ungroup(data)
+  # List of all data rows
+  data_rows <- seq_len(nrow(df))
+  
+  # Generate training sets based on the grp keys
+  train_test_list <- crossv_mc(data = tibble(grp_rows), n = n, test = test, id = id)
+  # Get the indices
+  train_indices <- lapply(X = train_test_list$train, FUN = "[[", "idx")
+  train_indices <- lapply(X = train_indices, FUN = function(tindx) unlist(grp_rows[tindx])) 
+  
+  # Create training resamples
+  train_list <- lapply(X = train_indices, FUN = function(rows) resample(data = df, idx = rows))
+  test_list <- lapply(X = train_indices, FUN = function(rows) resample(data = df, idx = setdiff(data_rows, rows)))
+
+  out <- tibble(train = train_list, test = test_list, id = train_test_list[[id]])
+  names(out)[3] <- id
+  
+  return(out)
+  
+}
+
+
+
+
+
+
+
+
 
 
 #' Rapid cross-validation without removing samples
@@ -315,7 +382,7 @@ rapid_cv <- function(object, index, rapid = TRUE) {
   }
   
   ## Pull out y
-  y_hat_all <- unlist(y_hat)
+  y_hat_all <- unlist(cv_out)
   
   # Calculate metrics and return
   R2 <- cor(y_hat_all, y)^2

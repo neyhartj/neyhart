@@ -108,3 +108,24 @@ object_size <- function(unit = "auto") {
   tibble(object = objects, size = size2)[order(size_num, decreasing = TRUE),]
   
 }
+
+
+
+
+#' Format numbers for printing
+#' 
+#' @description 
+#' Formats numbers using specified significant digits for printing tables or graphs
+#' 
+#' @param x A numeric vector.
+#' @param signif.digits An integer specifying the number of significant digits
+#' 
+#' @export
+#' 
+format_numbers <- function(x, signif.digits = 3L) {
+  stopifnot(is.numeric(x))
+  stopifnot(is.numeric(signif.digits))
+  formatC(x = signif(x = x, digits = signif.digits), digits = signif.digits, format = "fg", flag = "#")
+}
+
+

@@ -4,25 +4,19 @@
 \alias{confidInt}
 \title{Mean, standard errors, and confidence intervals of samples}
 \usage{
-confidInt(
-  x,
-  mu = 0,
-  alternative = c("two.sided", "less", "greater"),
-  level = 0.95,
-  return.list = TRUE
-)
+confidInt(x, level = 0.95, return.list = TRUE, na.rm = FALSE)
 }
 \arguments{
 \item{x}{A numeric vector}
+
+\item{level}{The confidence level, or \eqn{1 - \alpha}.}
+
+\item{return.list}{Logical. Should the output be a list (TRUE) or a vector (FALSE)?}
 
 \item{mu}{A numer indicating the true value of the mean}
 
 \item{alternative}{A character specifying the alternative hypothesis with
 respect to \code{mu}.}
-
-\item{level}{The confidence level, or \eqn{1 - \alpha}.}
-
-\item{return.list}{Logical. Should the output be a list (TRUE) or a vector (FALSE)?}
 }
 \description{
 Mean, standard errors, and confidence intervals of samples

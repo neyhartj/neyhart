@@ -2,9 +2,12 @@
 % Please edit documentation in R/statistics.R
 \name{crossv_loo_grouped}
 \alias{crossv_loo_grouped}
-\title{Generate leave-one-out resamples using a grouped \code{data.frame}}
+\alias{crossv_mc_grouped}
+\title{Generate cross-validation resamples using a grouped \code{data.frame}}
 \usage{
 crossv_loo_grouped(data, id = ".id")
+
+crossv_mc_grouped(data, n, test = 0.25, id = ".id")
 }
 \arguments{
 \item{data}{A grouped data frame.}
@@ -12,11 +15,13 @@ crossv_loo_grouped(data, id = ".id")
 \item{id}{Name of variable that gives each training set a unique integer id.}
 }
 \description{
-Expands the capability of the \code{\link[modelr]{crossv_loo}} function 
-such that groups in a grouped data frame form the basis of folds to be
-"left out" of a model training set for cross-validation.
+Expands the capability of the \code{\link[modelr]{crossv_loo}} and 
+\code{\link[modelr]{crossv_mc}} functions such that groups in a grouped
+data frame form the basis of folds to be "left out" of a model training set 
+for cross-validation.
 }
 \examples{
+
 # Normal crossv_loo
 cv_iris <- modelr::crossv_loo(iris)
 
@@ -28,5 +33,19 @@ cv_iris2 <- crossv_loo_grouped(group_by(iris, Species))
 # Note that the number of training partitions is equal to n_groups(data)
 
 
+
+
+library(agridat)
+wheat <- vargas.wheat2.yield
+
+# Normal crossv_mc
+cv_wheat <- modelr::crossv_mc(data = wheat, n = 10, test = 0.25)
+
+# Note that partitions are made across environments or genotypes
+
+# Use the new function
+cv_wheat2 <- crossv_mc_grouped(data = group_by(wheat, env), n = 15)
+
+# Note that partitions are made according to the group
 
 }

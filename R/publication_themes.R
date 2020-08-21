@@ -29,8 +29,7 @@ theme_poster <- function(base_size = 16) {
           panel.grid = element_blank())
 }
 
-#' Plotting theme for presentations or posters
-#' 
+
 #' @rdname pres_themes
 #' 
 #' @export
@@ -42,8 +41,6 @@ theme_presentation <- function(base_size = 16) {
           complete = TRUE)
 } 
 
-#' Plotting theme for presentations or posters
-#' 
 #' @rdname pres_themes
 #' 
 #' @export
@@ -78,13 +75,37 @@ theme_presentation2 <- function(base_size = 16) {
 #' 
 #' @import ggplot2
 #' 
+#' @examples 
+#' g <- qplot(x = disp, y = hp, data = mtcars)
+#' 
+#' 
 #' @export
 #' 
+theme_neyhart <- function(base_size = 8) {
+  # # Set text sizes
+  # theme_classic(base_size = base_size * 1.5) %+replace%
+  #   theme(axis.text = element_text(size = base_size),
+  #         legend.text = element_text(size = base_size),
+  #         axis.title = element_text(size = base_size * (4/3)),
+  #         legend.title = element_text(size = base_size * (4/3)),
+  #         strip.text = element_text(size = base_size * (4/3)),
+  #         plot.title = element_text(size = base_size * 1.5),
+  #         plot.subtitle = element_text(size = base_size * 1.25),
+  #         plot.caption = element_text(size = base_size))
+  
+  theme_classic(base_size = base_size)
+  
+}
+
+#' 
+#' 
+#' @rdname themes
+#' @export
 #' 
 theme_acs <- function(base_size = 8) {
   
-  theme_bw(base_size = base_size) %+replace%
-    theme(panel.grid = element_blank())
+  theme_neyhart(base_size = base_size) %+replace%
+    theme(panel.grid = element_blank(), panel.border = element_rect(fill = alpha("white", 0)))
   
 }
 
@@ -95,13 +116,11 @@ theme_acs <- function(base_size = 8) {
 #' 
 #' @export
 #' 
-theme_pnas <- function(base_size = 6) {
+theme_pnas <- function(base_size = 8) {
   
-  theme_classic(base_size = base_size) %+replace%
+  theme_neyhart(base_size = base_size) %+replace%
   theme(panel.grid = element_blank(),
-        strip.background = element_rect(fill = "grey85", size = 0),
-        axis.title = element_text(size = 6),
-        legend.text = element_text(size = 6))
+        strip.background = element_rect(fill = "grey85", size = 0))
   
 }
 
@@ -112,13 +131,11 @@ theme_pnas <- function(base_size = 6) {
 #' 
 #' @export
 #' 
-theme_genetics <- function(base_size = 10) {
+theme_genetics <- function(base_size = 8) {
   
-  theme_classic(base_size = base_size) %+replace%
+  theme_neyhart(base_size = base_size) %+replace%
     theme(panel.grid = element_blank(),
-          strip.background = element_rect(fill = "grey85", color = "gray85", size = 0),
-          axis.title = element_text(size = base_size),
-          legend.text = element_text(size = base_size))
+          strip.background = element_rect(fill = "grey85", color = "gray85", size = 0))
   
 }
 
