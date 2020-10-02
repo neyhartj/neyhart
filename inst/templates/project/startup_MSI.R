@@ -15,12 +15,12 @@ proj_dir <- "/path/to/project/on/remote/server/"
 
 # Other directories
 fig_dir <- file.path(proj_dir, "Figures")
-data_dir <- file.path(alt_proj_dir, "Data")
+data_dir <- file.path(proj_dir, "Data")
 result_dir <- file.path(proj_dir, "Results")
 
 
 ## Source the 'startup.R' script from a define starting point
-source_lines <- readLines(file.path(repo_dir, "startup.R"))
+source_lines <- readLines(file.path(proj_dir, "startup.R"))
 source_lines_discard <- seq(which(grepl(pattern = "^# MSI", x = source_lines)))
 source_lines_run <- source(textConnection(source_lines[-source_lines_discard]))
 
