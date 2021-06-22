@@ -33,17 +33,26 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
   
   ## Prompt user for using git or msi
   use_git <- ui_yeah("Initialize a git repository?")
-  # MSI only if the project type is analysis
+  
+  # # MSI only if the project type is analysis
+  # if (type == "analysis") {
+  #   use_msi <- ui_yeah("Provide templates for submitting scripts to MSI?")
+  # } else {
+  #   use_msi <- FALSE
+  # }
+  
+  # SCINET only if the project type is analysis
   if (type == "analysis") {
-    use_msi <- ui_yeah("Provide templates for submitting scripts to MSI?")
+    use_hpc <- ui_yeah("Provide templates for submitting scripts to SCINet?")
   } else {
-    use_msi <- FALSE
+    use_hpc <- FALSE
   }
+  
   
   ## Choose function based on the project type
   fun <- switch(type, analysis = new_analysis, poster = new_poster, package = new_package)
   # Run the function
-  fun(project.name = project.name, dir = dir, use.git = use_git, use.msi = use_msi)
+  fun(project.name = project.name, dir = dir, use.git = use_git, use.hpc = use_hpc)
          
 } # End
 
@@ -52,13 +61,13 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
 #' @import usethis
 #' @export
 #' 
-new_analysis <- function(project.name, dir = ".", use.git = TRUE, use.msi = TRUE) {
+new_analysis <- function(project.name, dir = ".", use.git = TRUE, use.hpc = TRUE) {
   
   ## Error
   stopifnot(is.character(project.name))
   stopifnot(is.character(dir))
   stopifnot(is.logical(use.git))
-  stopifnot(is.logical(use.msi))
+  stopifnot(is.logical(use.hpc))
 
   # Create a path for the new project
   path <- file.path(dir, project.name)
@@ -82,9 +91,12 @@ new_analysis <- function(project.name, dir = ".", use.git = TRUE, use.msi = TRUE
   use_template(template = "project/functions.R", save_as = "functions.R", package = "neyhart")
   
   # If using MSI; use the startup_MSI template
-  if (use.msi) {
-    use_template(template = "project/startup_MSI.R", save_as = "startup_MSI.R", package = "neyhart")
-    use_template(template = "project/pbs_template.sh", save_as = "pbs_template.sh", package = "neyhart")
+  if (use.hpc) {
+    # use_template(template = "project/startup_MSI.R", save_as = "startup_MSI.R", package = "neyhart")
+    # use_template(template = "project/pbs_template.sh", save_as = "pbs_template.sh", package = "neyhart")
+    
+    use_template(template = "project/startup_SCINet.R", save_as = "startup_SCINet.R", package = "neyhart")
+    use_template(template = "project/scinet_template.sh", save_as = "scinet_template.sh", package = "neyhart")
     
   }
 
@@ -99,7 +111,7 @@ new_analysis <- function(project.name, dir = ".", use.git = TRUE, use.msi = TRUE
     use_git_ignore(ignores = "README.Rmd")
     
     ## Also add *.o* and *.e* for MSI output
-    if (use.msi) use_git_ignore(ignores = c("*.o*", "*.e*"))
+    if (use.hpc) use_git_ignore(ignores = c("*.o*", "*.e*"))
 
   }
   
@@ -115,13 +127,13 @@ new_analysis <- function(project.name, dir = ".", use.git = TRUE, use.msi = TRUE
 #' @import usethis
 #' @export
 #' 
-new_poster <- function(project.name, dir = ".", use.git = TRUE, use.msi = FALSE) {
+new_poster <- function(project.name, dir = ".", use.git = TRUE, use.hpc = FALSE) {
   
   ## Error
   stopifnot(is.character(project.name))
   stopifnot(is.character(dir))
   stopifnot(is.logical(use.git))
-  stopifnot(is.logical(use.msi))
+  stopifnot(is.logical(use.hpc))
   
   # Create a path for the new project
   path <- file.path(dir, project.name)
@@ -158,7 +170,7 @@ new_poster <- function(project.name, dir = ".", use.git = TRUE, use.msi = FALSE)
   
   
   # If using MSI; use the startup_MSI template
-  if (use.msi) {
+  if (use.hpc) {
     use_template(template = "project/pbs_template.sh", save_as = "pbs_template.sh", package = "neyhart")
     
   }
@@ -178,7 +190,7 @@ new_poster <- function(project.name, dir = ".", use.git = TRUE, use.msi = FALSE)
     use_git_ignore(ignores = "README.Rmd")
     
     ## Also add *.o* and *.e* for MSI output
-    if (use.msi) use_git_ignore(ignores = c("*.o*", "*.e*"))
+    if (use.hpc) use_git_ignore(ignores = c("*.o*", "*.e*"))
     
   }
   
@@ -195,14 +207,13 @@ new_poster <- function(project.name, dir = ".", use.git = TRUE, use.msi = FALSE)
 #' @import usethis
 #' @export
 #' 
-new_package <- function(project.name, dir = ".", use.git = TRUE, use.msi = FALSE) {
+new_package <- function(project.name, dir = ".", use.git = TRUE) {
   
   ## Error
   stopifnot(is.character(project.name))
   stopifnot(is.character(dir))
   stopifnot(is.logical(use.git))
-  stopifnot(is.logical(use.msi))
-  
+
   # Create a path for the new project
   path <- file.path(dir, project.name)
   

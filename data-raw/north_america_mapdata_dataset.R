@@ -6,7 +6,8 @@ library(broom)
 # Get the map data for canada
 canada <- rnaturalearth::ne_states(country = "canada") %>%
   tidy(x = ., region = "name_en") %>%
-  mutate(group = as.numeric(as.factor(group)))
+  mutate(group = as.numeric(as.factor(group))) %>%
+  mutate(area = "canada")
 
 # Download map data for US by county
 usa_county <- map_data(map = "county")
@@ -15,11 +16,13 @@ usa_state <- map_data(map = "state")
 
 # Adjust the groups in the states
 usa_state <- usa_state %>%
-  mutate(group = group + max(canada$group))
+  mutate(group = group + max(canada$group),
+         area = "usa_state")
 
 # Adjust the groups in the counties
 usa_county <- usa_county %>%
-  mutate(group = group + max(usa_state$group))
+  mutate(group = group + max(usa_state$group),
+         area = "usa_county")
 
 # Tidy and combine
 north_america_mapdata <- bind_rows(usa_state, usa_county, canada)
