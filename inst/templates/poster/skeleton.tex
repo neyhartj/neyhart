@@ -6,7 +6,7 @@
 % Created by:
 % Computational Physics and Biophysics Group, Jacobs University
 % https://teamwork.jacobs-university.de:8443/confluence/display/CoPandBiG/LaTeX+Poster
-% 
+%
 % Further modified by:
 % Nathaniel Johnston (nathaniel@njohnston.ca)
 %
@@ -24,18 +24,46 @@
 
 \documentclass[final]{beamer}
 
-\usepackage[scale=1.24,orientation=portrait]{beamerposter} % Use the beamerposter package for laying out the poster
-% Add orientation=portrait for a portrait mode
+% Use the beamerposter package for laying out the poster
+\usepackage[scale=1.24,orientation=portrait]{beamerposter}
+% \usepackage[scale=1.24,orientation=landscape]{beamerposter}
 
 \usetheme{confposter} % Use the confposter theme supplied with this template
 
 \usepackage{wrapfig} % Use for wrapping figures
 
-\usepackage[super,numbers]{natbib} % Use for fine-tunning the captions. This is also required for using the poster bibiolography style
-% that I created
+\usepackage[super,numbers]{natbib} % Use for fine-tunning the captions
 
-\usepackage[export]{adjustbox} % Use for alignning images
-\usepackage{subcaption}
+
+%% Define the paths to the Mendeley library
+% \newcommand\mendlibrary{C:/Users/jeffrey.neyhart/Documents/Literature/MendeleyLibrary/library}
+
+
+
+%% Configure code blocks
+\usepackage{listings} % Use for code blocks
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
 
 % \usepackage{biblatex} % Bibliography
 
@@ -61,8 +89,8 @@
 \newlength{\threecolwid}
 
 %% Poster size
-\setlength{\paperwidth}{34in} % A0 width: 46.8in
-\setlength{\paperheight}{46in} % A0 height: 33.1in
+\setlength{\paperwidth}{44in} % A0 width: 46.8in
+\setlength{\paperheight}{44in} % A0 height: 33.1in
 
 
 \setlength{\sepwid}{0.024\paperwidth} % Separation width (white space) between columns
@@ -71,26 +99,23 @@
 \setlength{\threecolwid}{0.9279999\paperwidth} % Width of three columns
 \setlength{\topmargin}{-0.5in} % Reduce the top margin size
 %-----------------------------------------------------------
-  
+
 \usepackage{graphicx}  % Required for including images
 
 \usepackage{booktabs} % Top and bottom rules for tables
 
 %----------------------------------------------------------------------------------------
-%	TITLE SECTION 
+%	TITLE SECTION
 %----------------------------------------------------------------------------------------
 
-\title{Environmental Clustering Strategies to Enhance Genomewide Selection} % Poster title
+\title{An Active Learning Application for Quantitative \\ Genetics Instruction Using \textit{R} and \textit{shiny}} % Poster title
 % Add \\ to induce new line
 
-\author{Jeffrey L. Neyhart\textsuperscript{*} and ...} % Author(s)
+\vspace{1cm}
 
-\institute{ Institution \\
+\author{Jeffrey L. Neyhart\textsuperscript{1*} and Eric Watkins\textsuperscript{2}} % Author(s)
 
-\small{*Contact: Email - \href{mailto:neyha001@umn.edu}{neyha001@umn.edu}, Web - \href{http://smithlab.cfans.umn.edu/}{smithlab.cfans.umn.edu}}
-
-}
-
+\institute{\textsuperscript{1}Department of Agronomy and Plant Genetics, and \textsuperscript{2}Department of Horticultural Science, University of Minnesota}
 
 %----------------------------------------------------------------------------------------
 
@@ -123,15 +148,13 @@
 
 \begin{alertblock}{\Large{Takeaways}}
 
-% \begin{textbf}
-
 \begin{itemize}
-  \item \textbf{A multi-environment barley (\textit{Hordeum vulgare} L.) dataset was used to test genomewide predictions}
-  \item \textbf{Environments in a training set were clustered based on phenotype data or environmental covariables}
-  \item \textbf{Environment clusters may improve prediction accuracy, but using all data is simpler and effective}
+  \item \textbf{We developed an active learning application for instruction in introductory quantitative and population genetics.}
+  \vspace{0.5cm}
+  \item \textbf{Common topics in plant breeding courses are covered in three modules.}
+  \vspace{0.5cm}
+  \item \textbf{The application relies on \textit{R} and has a graphical user interface built using the package \textit{shiny}. The software is freely available, modular, and expandable.}
 \end{itemize}
-
-% \end{textbf}
 
 \end{alertblock}
 
@@ -141,125 +164,107 @@
 
 \begin{block}{Introduction}
 
-% \begin{footnotesize}
 
-Genomewide selection may allow breeders to predict the merit of unphenotyped individuals in future environments \cite{Malosetti2016a, Jarquin2017}.
+%% Text
+An introduction to quantitative and population genetics is fundamental in plant breeding courses; however, these subjects rely heavily on theory and statistics, which may not be readily understood by all students.
 
-\vspace{0.5cm}
+\vspace{1cm}
 
-Predictions for future environments require information on those environments, as from historical phenotypic data or environmental covariables (ECs).
+Active learning can help improve comprehension of such material \cite{Freeman2014} through the use of games or simulations \cite{Bernardo2017a, McKeachie2006}.
 
-\vspace{0.5cm}
+\vspace{1cm}
 
-Environmental clusters can reduce genotype-environment interactions (GxE)\cite{Bernardo2010} and potentially improve predictions \cite{Lado2016a}.
+The programming language \textit{R} is very useful for analysis and simulations in quantitative and population genetics, and the \textit{shiny} \cite{Chang2017} package provides tools for constructing web applications that can deploy \textit{R} functions.
 
-\vspace{0.5cm}
+\vspace{1cm}
 
-Clustering methods have not been thoroughly tested.
-
-
-% \end{footnotesize}
+During an introductory undergraduate course in plant breeding, we developed a \textit{shiny} application (Shiny App) as an active-learning tool to augment traditional lecture-based instruction.
 
 \end{block}
 
 
-%----------------------------------------------------------------------------------------
-%	OBJECTIVES
-%----------------------------------------------------------------------------------------
+% %----------------------------------------------------------------------------------------
+% %	OBJECTIVES
+% %----------------------------------------------------------------------------------------
+%
+% % Set the color
+% \setbeamercolor{block alerted title}{fg=white,bg=blueset1!70} % Change the alert block title colors
+% \setbeamercolor{block alerted body}{fg=black,bg=blueset1!10} % Change the alert block body colors
+%
+% \begin{alertblock}{\large{Objectives}}
+%
+% \begin{footnotesize}
+%
+% \begin{itemize}
+%   \item Identify markers and genomic regions of elevated plasticity and stability
+%   \item Compare gene annotation frequency in these genomic regions
+%   \item Assess the impact to genomewide prediction accuracy of using markers with highly plastic or stable effects
+% \end{itemize}
+%
+% \end{footnotesize}
+%
+%
+%
+% \end{alertblock}
 
-% Set the color
-\setbeamercolor{block alerted title}{fg=white,bg=blueset1!70} % Change the alert block title colors
-\setbeamercolor{block alerted body}{fg=black,bg=blueset1!10} % Change the alert block body colors
 
-\begin{alertblock}{\large{Questions}}
-
-\begin{footnotesize}
-
-\begin{itemize}
-  \item What environmental clustering strategies increase genomewide prediction accuracy?
-  \item Are environmental clusters superior to using all data when predicting an uphenotyped population?
-\end{itemize}
-
-\end{footnotesize}
-
-
-\end{alertblock}
 
 
 %----------------------------------------------------------------------------------------
 %	MATERIALS AND MATERIALS
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Materials and Methods}
-
-Training (TP) and validation populations (VP) were phenotyped for \textit{heading date}, \textit{grain yield}, and \textit{plant height}.
+\begin{block}{Application Development}
 
 
-% % Figure
-% \begin{figure}
-%   \begin{center}
-%   \begin{minipage}[m]{0.50\linewidth}
-%     \centering
-%     \includegraphics[width=\linewidth]{figure.jpg}
-%   \end{minipage}% No spacing 
-%   \begin{minipage}[m]{0.50\linewidth}
-%     \centering
-%     \includegraphics[width=\linewidth]{figure.jpg}
-%   \end{minipage}% No spacing 
-% \end{center}
-% \end{figure}
+%% Application structure
+\textbf{Application Structure}
 
+\vspace{0.5cm}
 
-\vspace{1cm}
+\begin{center}
+\begin{figure}
+  % \includegraphics[width=1\linewidth]{figures/app_demo.png}
+\end{figure}
+\end{center}
 
-%% Phenotypic analysis
-Environment effect ($t_j$) and interaction score ($IPCA_j$) calculated from additive main effects and multiplicate interaction (AMMI) model: 
-  $$y_{ij} = \mu + g_i + t_j + \sum^N_{n=1} (IPCA_{in})(IPCA_{jn}) + \delta_{ij} + \epsilon_{ij}$$
+\vspace{0.5cm}
 
-
-\vspace{1cm}
-
-
-Environmental covariables:
-
-\begin{footnotesize}
+A Shiny App is built on two \textit{R} scripts:
 
 \begin{itemize}
-  \item Covariables related to temperature, daylength, rainfall, and soil properties were selected 
-  \item Daily observations obtained during growing period
-  \item Data was averaged over the 10 years preceding an environment
+  \item \texttt{server.R} - performs simulations, operations, and generates plots.
+  \item \texttt{ui.R} - specifies the user interface, including layout, color scheme, and Java/HTML settings.
 \end{itemize}
 
-\end{footnotesize}
+\vspace{1cm}
+
+Each module contains: 1) a sidebar with brief directions and widgets for controlling user input; and 2) an output area for plots and tables.
+
+\vspace{1cm}
+
+The advantage of a Shiny App is its ease-of-use: no knowledge of \textit{R} is necessary, but students can explore further to understand the underlying code.
+
 
 
 \vspace{1cm}
 
+%% Assumptions
+\textbf{Assumptions}
 
-Distance measures to cluster environments:
+\vspace{0.5cm}
 
-\vspace{-0.5cm}
+Most assumptions follow the basic theory in quantitative and population genetics that is often taught in plant breeding courses \cite{Bernardo2010, Acquaah2012}
 
-\begin{scriptsize}
-\begin{table}[h]
-\centering
-\begin{tabular}{p{0.15\linewidth} p{0.58\linewidth} p{0.01\linewidth} p{0.21\linewidth}} 
-\toprule
-\textbf{Distance measure} & \textbf{Definition} & & \textbf{Predict future environment?}\\
-\midrule
-PD & Phenotypic distance between environments based on genetic correlation \cite{Ouyang1995} & & No \\
-LocPD & Phenotypic distance between locations & & Yes, if location was observed\\
-GCD & Great circle distance using latitude/longitude & & Yes\\
-All-EC & All environmental covariables (ECs) & & Yes\\
-Mean-EC & ECs correlated with environment effect & & Yes\\
-IPCA-EC & ECs correlated with environment IPCA score & & Yes\\
-\bottomrule
-\end{tabular}
-\end{table}
-\end{scriptsize}
+\begin{itemize}
+  \item All quantitative trait loci (QTL) influencing a trait are unlinked.
+  \item Populations are composed of randomly mating diploid individuals.
+  \item There is no mutation or migration.
+  \item Non-genetic effects are normally-distributed.
+\end{itemize}
 
 
-
+\vspace{1cm}
 
 
 
@@ -279,72 +284,64 @@ IPCA-EC & ECs correlated with environment IPCA score & & Yes\\
 
 % Removing the two-columns within the middle column structure
 % \begin{columns}[t,totalwidth=\twocolwid] % Split up the two columns wide column
-%   
+%
 % \begin{column}{\onecolwid}\vspace{-.6in} % The first column within column 2 (column 2.1)
 
 %----------------------------------------------------------------------------------------
 %	RESULTS
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Results}
+\begin{block}{Modules}
 
 % Now split into two columns
 \begin{columns}[t,totalwidth=\twocolwid] % Split up the two columns wide column
 
 
-\begin{column}{0.6\onecolwid} % The first column within column 2 (column 2.1)
+\begin{column}{\onecolwid} % The first column within column 2 (column 2.1)
 
 %----------------------------------------------------------------------------------------
 
+%% Figure of the first module
 
-% Table with variance components
+\textit{Module 1: Randomly Mating Populations}
+
+\vspace{0.5cm}
+
+\begin{center}
+\begin{figure}
+  % \includegraphics[width=1\linewidth]{figures/Figure1.png}
+\end{figure}
+\end{center}
+
+% Remove some vertical space
+\vspace{-1cm}
+
+% Now split into two columns
+\begin{columns}[t,totalwidth=\onecolwid] % Split up the two columns wide column
+
+\begin{column}{0.4\onecolwid} % The first column within column 2 (column 2.1)
+
+User-adjusted parameters:
+
+\begin{itemize}
+  \item Starting allele frequency
+  \item Population size
+  \item Number of generations
+\end{itemize}
+
+\end{column}
+\begin{column}{0.6\onecolwid} % The first column within column 2 (column 2.1)
+
+Output:
+
+\begin{itemize}
+  \item Frequency of a single allele in a randomly mating population
+  \item Generation of allele fixation (if applicable)
+\end{itemize}
 
 
-\begin{footnotesize}
-
-\textbf{GxE variance attributed to lack of correlation between environments.}
-
-\end{footnotesize}
-
-
-
-\begin{scriptsize}
-
-\begin{table}[!h]
-\centering
-\begin{tabular}{p{0.45\linewidth} p{0.1833333\linewidth} p{0.1833333\linewidth} p{0.1833333\linewidth}}
-\toprule
-\textbf{Source of variation} & \textbf{Grain Yield} & \textbf{Heading Date} & \textbf{Plant Height} \\
-\midrule
-Genotype & 2.3\% & 21\% & 5\%\\
-Environment & 82\% & 68\% & 84\%\\
-G x E & 6.8\% & 11\% & 11\%\\
-\hspace{0.1cm} $V_G$ Heterogeneity* & \hspace{0.1cm} 9\% & \hspace{0.1cm} 18\% & \hspace{0.1cm} 9.6\%\\
-\hspace{0.1cm} Lack Of  Correlation* & \hspace{0.1cm} 91\% & \hspace{0.1cm} 82\% & \hspace{0.1cm} 90\%\\
-Residual & 8.7\% & 0.00019\% & 0.0053\%\\
-\bottomrule
-\multicolumn{4}{l}{\tiny{*Reported as proportion of G x E variance.}}\\
-\end{tabular}
-\end{table}
-
-\end{scriptsize}
-
-
-
-
-
-
-% % Insert two lines
-% \begin{tikzpicture}[remember picture,overlay]
-%   \shade [inner color=gray,outer color=white]
-%   (\textwidth+1cm,0) rectangle (\textwidth+0.3cm+1cm,27);
-% \end{tikzpicture}
-% 
-% % Insert two lines
-% \begin{tikzpicture}[remember picture,overlay]
-%   \shade [inner color=gray,outer color=white]
-%   (0,0) rectangle (\textwidth,0.3cm);
-% \end{tikzpicture}
+\end{column}
+\end{columns}
 
 
 
@@ -352,15 +349,54 @@ Residual & 8.7\% & 0.00019\% & 0.0053\%\\
 
 \end{column} % End of column 2.1
 
-\begin{column}{1.4\onecolwid} % The second column within column 2 (column 2.2)
+\begin{column}{\onecolwid} % The second column within column 2 (column 2.2)
 
 %----------------------------------------------------------------------------------------
 
-% Figure
 
+%% Figure of the second module
+
+\textit{Module 2: Genetic Variance}
+
+\vspace{0.5cm}
+
+\begin{center}
 \begin{figure}
-  \includegraphics[width=1\linewidth]{figure.jpg}
+  % \includegraphics[width=1\linewidth]{figures/Figure2.png}
 \end{figure}
+\end{center}
+
+% Vertically adjust text for the different sizes of the figures
+\vspace{45.46271px}
+
+% Remove some vertical space
+\vspace{-1cm}
+
+% Now split into two columns
+\begin{columns}[t,totalwidth=\onecolwid] % Split up the two columns wide column
+
+\begin{column}{0.4\onecolwid} % The first column within column 2 (column 2.1)
+
+User-adjusted parameters:
+
+\begin{itemize}
+  \item Allele frequency
+  \item Additive effect
+  \item Dominance effect
+\end{itemize}
+
+\end{column}
+\begin{column}{0.6\onecolwid} % The first column within column 2 (column 2.1)
+
+Output:
+
+\begin{itemize}
+  \item Level of additive variance ($V_A$, red), dominance variance ($V_D$, blue), and total genetic variance ($V_G$, black)
+\end{itemize}
+
+
+\end{column}
+\end{columns}
 
 
 
@@ -372,135 +408,168 @@ Residual & 8.7\% & 0.00019\% & 0.0053\%\\
 \end{columns} % End of the split of column 2
 
 
-\vspace{4cm}
+%-------------------------------
+
+% % Insert an alert block that spans the whole width
+%
+% % Set the color
+% \setbeamercolor{block alerted title}{fg=white,bg=orangeset1!70} % Change the alert block title colors
+% \setbeamercolor{block alerted body}{fg=black,bg=orangeset1!10} % Change the alert block body colors
+%
+% \begin{alertblock}{}
+%
+% % Divide into columns
+% % Now split into two columns
+% \begin{columns}[t,totalwidth=\twocolwid] % Split up the two columns wide column
+%
+% \begin{column}{\onecolwid} %
+%
+% %%% Fill in here
+%
+% \end{column} % End of column
+%
+% %%-----------------------------------
+%
+% \begin{column}{\onecolwid} % The second column within column 2 (column 2.2)
+%
+% %%% Fill in here
+%
+%
+% \end{column} % End of column
+%
+% \end{columns} % End of the split of column
+%
+% \end{alertblock}
+
+%--------------------------------
 
 
 
 
-% Now split into two columns
-\begin{columns}[t,totalwidth=\twocolwid] % Split up the two columns wide column
 
-% First column
-\begin{column}{1\onecolwid} % The first column within column 2 (column 2.1)
+%% Add some space
+\vspace{2cm}
+
+%-------------------------------
+%% Split the section into three columns
+\begin{columns}[t,totalwidth=\twocolwid]
+
+%% Three columns will exist in this space - each of 2/3 * onecolwidth
 
 
-% Title of figure
+%% The first column
+\begin{column}{\onecolwid}
+% \begin{column}{\onecolwid}
 
+%% Figure of the third module
 
-%% Figure
-\begin{figure}
-  \includegraphics[width=1\linewidth]{figures/figure.jpg}
-\end{figure}
+\textit{Module 3: Response to Selection}
 
 \vspace{0.5cm}
 
-\begin{footnotesize}
-
-\textbf{AMMI analysis did not indicated strong clustering of environments by location or year.}
-
-\end{footnotesize}
-
-
-
-% End the first column
-\end{column} % End of column 2.1
-
-
-\begin{column}{1\onecolwid} % The second column within column 2 (column 2.2)
-
-
+\begin{center}
 \begin{figure}
-  \begin{center}
-  \begin{minipage}[m]{0.48\linewidth}
-    \centering
-    \includegraphics[width=1\linewidth]{figures/figure.jpg}
-  \end{minipage}% No spacing 
-  \hspace{0.02\linewidth}
-  \begin{minipage}[m]{0.48\linewidth}
-    \centering
-    \includegraphics[width=1\linewidth]{figures/figure.jpg}
-  \end{minipage}% No spacing 
+  % \includegraphics[width=1\linewidth]{figures/Figure3.png}
+\end{figure}
 \end{center}
-\end{figure}
 
 
-\begin{footnotesize}
+% Remove some vertical space
+\vspace{-1cm}
 
-\textbf{Informative environmental covariables were correlated with environment effects and IPCA scores.}
-
-\end{footnotesize}
-
-
-
-\end{column} % End of column 2.3
-
-
-
-\end{columns} % End of the outer split
-
-
-
-
-\vspace{3cm}
-
-
-
-%%% Start the third results block (predictions)
 % Now split into two columns
-\begin{columns}[t,totalwidth=\twocolwid] % Split up the two columns wide column
+\begin{columns}[t,totalwidth=\onecolwid] % Split up the two columns wide column
 
-% First column
-\begin{column}{1\onecolwid} % The first column within column 3 (column 3.1)
+\begin{column}{0.4\onecolwid} % The first column within column 2 (column 2.1)
+
+User-adjusted parameters:
+
+\begin{itemize}
+  \item Allele frequencies
+  \item Heritability
+  \item Selection intensity
+  \item Population size
+\end{itemize}
+
+\end{column}
+\begin{column}{0.6\onecolwid} % The first column within column 2 (column 2.1)
+
+Output:
+
+\begin{itemize}
+  \item Response to selection (change in mean genotypic value)
+  \item Change in genetic variance over generations
+  \item Allele frequency at each of 25 QTL (line width proportional to effect size)
+\end{itemize}
 
 
-%% Figure of cluster prediction scheme
+\end{column}
+\end{columns}
+
+
+%% End of first column
+\end{column}
+
+
+
+
+
+
+%% The second column
+\begin{column}{\onecolwid}
+
+%% Insert an alert block
+
+% Set the color
+\setbeamercolor{block alerted title}{fg=white,bg=blueset1!70} % Change the alert block title colors
+\setbeamercolor{block alerted body}{fg=black,bg=blueset1!10} % Change the alert block body colors
+
+\vspace{-0.5cm}
+
+\begin{alertblock}{Intended Learning Outcomes}
+
+
+\begin{center}
 \begin{figure}
-  \includegraphics[width=1\linewidth]{figures/figure.jpg}
+  % \includegraphics[width=1\linewidth]{figures/learning_outcomes.jpg}
 \end{figure}
+\end{center}
 
-
-\end{column} % End of column 3.1
-
-
-
-
-% First column
-\begin{column}{1\onecolwid} % The first column within column 3 (column 3.1)
+Concepts in quantitative and population genetics are covered by one or more modules and synthesized in distinct learning outcomes.
 
 
 
-%% Figure of cluster prediction results
-\begin{figure}
-  \includegraphics[width=0.90\linewidth]{figures/figure.jpg}
-\end{figure}
-
+% Space
 \vspace{0.5cm}
 
-\begin{footnotesize}
 
-\textbf{Training sets clustered by ECs may increase accuracy, but using all data is generally simpler and comparable.}
+\end{alertblock}
 
-\end{footnotesize}
-
-
+% End of second column
+\end{column}
 
 
-\end{column} % End of column 3.2
-
-\end{columns} % End of the third split
-
+%% End the two columns
+\end{columns}
 
 
-
-
-% Add some space
-\vspace{1cm}
-
-
-% End the first results block
+% End the results block
 \end{block}
 
+%----------------------------
+
+
+
+
+
+
+
+%% Add some space
+\vspace{0cm}
+
+
 %----------------------------------------------------------------------------------------
+
 
 
 
@@ -511,31 +580,42 @@ Residual & 8.7\% & 0.00019\% & 0.0053\%\\
 %	CONCLUSIONS
 %----------------------------------------------------------------------------------------
 
-\begin{column}{0.6667\onecolwid}
+\begin{column}{1\onecolwid}
 
 % Set the color
 \setbeamercolor{block alerted title}{fg=white,bg=orangeset1!70} % Change the alert block title colors
 \setbeamercolor{block alerted body}{fg=black,bg=orangeset1!10} % Change the alert block body colors
 
-\begin{alertblock}{Conclusions}
+\begin{alertblock}{Availability and Installation}
 
 \begin{footnotesize}
 
-% % Body
-% Genomewide selection can be used to predict untested genotypes in future environments.
-Training sets of clustered environments can improve prediction accuracy. Clusters based on phenotypic data tend to be superior.
+The application is freely available as an \textit{R} package: \texttt{qgshiny}, which can be downloaded from the GitHub repository \textcolor{blue}{https://github.com/neyhartj/qgshiny}.
 
 \vspace{0.5cm}
 
-Environmental covariates can be used to predict future environments.
 
-\vspace{0.5cm}
+To install, use these command in \textit{R} (this text can be copied directly):
 
-Using all available training data to predict untested genotypes in future environments is simpler and equally effective.
 
+\texttt{\# Install from GitHub using the \textit{devtools} package}  % \hfill  Email: \href{mailto:neyha001@umn.edu}{neyha001@umn.edu}
+
+\texttt{devtools::install\_github("neyhartj/qgshiny")}  % \hfill  Web: \href{http://smithlab.cfans.umn.edu/}{smithlab.cfans.umn.edu}
+
+\vspace{1cm}
+
+
+\textbf{*Contact Information}
+
+\begin{itemize}
+\item Email: \href{mailto:neyha001@umn.edu}{neyha001@umn.edu}
+\item Twitter: \href{https://twitter.com/neyhartje}{@neyhartje}
+\item Web: \href{http://smithlab.cfans.umn.edu/}{smithlab.cfans.umn.edu}
+\end{itemize}
 
 
 \end{footnotesize}
+
 
 \end{alertblock}
 
@@ -548,7 +628,7 @@ Using all available training data to predict untested genotypes in future enviro
 %	ACKNOWLEDGEMENTS
 %----------------------------------------------------------------------------------------
 
-\begin{column}{0.6667\onecolwid} % The first column within column 2 (column 2.1)
+\begin{column}{1\onecolwid} % The first column within column 2 (column 2.1)
 
 
 % Change the font of the block title for the next two sections
@@ -556,43 +636,14 @@ Using all available training data to predict untested genotypes in future enviro
 
 \begin{block}{\large{Acknowledgements}}
 
-\begin{tiny}
+\begin{footnotesize}
 
-We thank the many collaborators that made this project successful; E. Schiefelbein, G. Velasquez, and K. Beaubien for technical support; and members the Smith Lab for assistance, advice, and encouragement. This research is supported by the U.S. Wheat and Barley Scab Initiative, the Minnesota Department of Agriculture, Rahr Malting Co., the Brewers Association, and USDA-NIFA Grant No. 2018-67011-28075. Any opinions, findings, conclusions, or recommendations expressed in this publication are those of the author(s) and do not necessarily reflect the view of the U.S. Department of Agriculture.
+We thank students in HORT/AGRO 4401 (Spring 2017) and AGRO 5021 (Fall 2017) for testing the application and providing feedback. Thanks also go to Kevin P. Smith for input and to James Anderson for providing class time to deploy the application.
 
-\vspace{0.25cm}
-
-% Path for the funding logos
-\graphicspath{{C:/Users/jln54/GoogleDrive/BarleyLab/ForKevin/Resources/}}
-
-
-% Funding logos
-\begin{center}
-% \includegraphics[height=4cm]{figures/umn_logo.png}
-% \hspace{.5cm}
-% \includegraphics[height=1.5cm]{uswbsi_logo.png}
-% \hspace{.0cm}
-% \includegraphics[height=1.5cm]{MDA-logo.jpg}
-% \hspace{.0cm}
-% \includegraphics[height=1.5cm]{rahr_logo.png}
-% \hspace{.0cm}
-% \includegraphics[height=1.5cm]{brewersassociation_logo.png}
-% \hspace{0.0cm}
-% \includegraphics[height=1.5cm]{usda_nifa_horizontal_cmyk_300.jpg}
-\end{center}
-
-\end{tiny}
+\end{footnotesize}
 
 \end{block}
 
-% End the acknowledgements column
-\end{column}
-
-
-
-%----------------
-% Begin the references column
-\begin{column}{0.6667\onecolwid} % The first column within column 2 (column 2.1)
 
 %----------------------------------------------------------------------------------------
 %	REFERENCES
@@ -607,8 +658,8 @@ We thank the many collaborators that made this project successful; E. Schiefelbe
 
 \begin{tiny}
 
-\bibliographystyle{C:/Users/jln54/GoogleDrive/Literature/BibliographyStyles/posterbibstyle}
-\bibliography{C:/Users/jln54/GoogleDrive/Literature/MendeleyLibrary/library}
+\bibliographystyle{supporting_files/posterbibstyle}
+% \bibliography{\mendlibrary}
 
 
 \end{tiny}
@@ -624,18 +675,18 @@ We thank the many collaborators that made this project successful; E. Schiefelbe
 % %----------------------------------------------------------------------------------------
 % %	CONTACT INFORMATION
 % %----------------------------------------------------------------------------------------
-% 
+%
 % \setbeamercolor{block alerted title}{fg=white,bg=orangeset1!70} % Change the alert block title colors
 % \setbeamercolor{block alerted body}{fg=black,bg=orangeset1!10} % Change the alert block body colors
-% 
+%
 % \begin{alertblock}{\large{\textsuperscript{*}Contact Information}}
-% 
+%
 % \begin{itemize}
 % \item Email: \href{mailto:neyha001@umn.edu}{neyha001@umn.edu}
 % \item Twitter: \href{https://twitter.com/neyhartje}{@neyhartje}
 % \item Web: \href{http://smithlab.cfans.umn.edu/}{smithlab.cfans.umn.edu}
 % \end{itemize}
-% 
+%
 % \end{alertblock}
 
 

@@ -34,6 +34,9 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
   ## Prompt user for using git or msi
   use_git <- ui_yeah("Initialize a git repository?")
   
+  ## Prompt for github
+  use_github <- ui_yeah("Create and push to a GitHub repository?")
+  
   # # MSI only if the project type is analysis
   # if (type == "analysis") {
   #   use_msi <- ui_yeah("Provide templates for submitting scripts to MSI?")
@@ -52,7 +55,7 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
   ## Choose function based on the project type
   fun <- switch(type, analysis = new_analysis, poster = new_poster, package = new_package)
   # Run the function
-  fun(project.name = project.name, dir = dir, use.git = use_git, use.hpc = use_hpc)
+  fun(project.name = project.name, dir = dir, use.git = use_git, use.github = use_github, use.hpc = use_hpc)
          
 } # End
 
@@ -61,7 +64,7 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
 #' @import usethis
 #' @export
 #' 
-new_analysis <- function(project.name, dir = ".", use.git = TRUE, use.hpc = TRUE) {
+new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE, use.github = TRUE) {
   
   ## Error
   stopifnot(is.character(project.name))
@@ -112,8 +115,17 @@ new_analysis <- function(project.name, dir = ".", use.git = TRUE, use.hpc = TRUE
     
     ## Also add *.o* and *.e* for MSI output
     if (use.hpc) use_git_ignore(ignores = c("*.o*", "*.e*"))
+    
+    
+    ## Push to github, if called
+    if (use.github) {
+      use_github()
+      
+    }
 
   }
+
+  
   
   # Notify the user
   cat("\n")
@@ -127,7 +139,7 @@ new_analysis <- function(project.name, dir = ".", use.git = TRUE, use.hpc = TRUE
 #' @import usethis
 #' @export
 #' 
-new_poster <- function(project.name, dir = ".", use.git = TRUE, use.hpc = FALSE) {
+new_poster <- function(project.name, dir = ".", use.hpc = FALSE, use.github = TRUE, use.git = TRUE) {
   
   ## Error
   stopifnot(is.character(project.name))
@@ -147,7 +159,7 @@ new_poster <- function(project.name, dir = ".", use.git = TRUE, use.hpc = FALSE)
   ## Create directories
   use_directory("figures")
   ## Copy folders and templates to the new directory
-  latex_to_copy <- system.file("templates/poster/latex/", package = "neyhart")
+  latex_to_copy <- system.file("templates/poster/supporting_files/", package = "neyhart")
   invisible(file.copy(from = latex_to_copy, to = path, overwrite = TRUE, recursive = TRUE))
   # Notify
   ui_done("Creating {ui_path(basename(latex_to_copy))}")
@@ -166,6 +178,19 @@ new_poster <- function(project.name, dir = ".", use.git = TRUE, use.hpc = FALSE)
   save_as <- file.path(path, paste0(project.name, "_poster_support_code.R"))
   invisible(file.copy(from = to_copy, to = path, overwrite = TRUE, recursive = TRUE))
   invisible(file.rename(from = file.path(path, "poster_support_code.R"), to = save_as))
+  ui_done("Writing {ui_path(basename(save_as))}")
+  
+  # Latex theme files
+  to_copy <- system.file("templates/poster/beamerposter.sty", package = "neyhart")
+  save_as <- file.path(path, "beamerposter.sty")
+  invisible(file.copy(from = to_copy, to = path, overwrite = TRUE, recursive = TRUE))
+  invisible(file.rename(from = file.path(path, "beamerposter.sty"), to = save_as))
+  ui_done("Writing {ui_path(basename(save_as))}")
+  
+  to_copy <- system.file("templates/poster/beamerthemeconfposter.sty", package = "neyhart")
+  save_as <- file.path(path, "beamerthemeconfposter.sty")
+  invisible(file.copy(from = to_copy, to = path, overwrite = TRUE, recursive = TRUE))
+  invisible(file.rename(from = file.path(path, "beamerthemeconfposter.sty"), to = save_as))
   ui_done("Writing {ui_path(basename(save_as))}")
   
   
@@ -192,6 +217,12 @@ new_poster <- function(project.name, dir = ".", use.git = TRUE, use.hpc = FALSE)
     ## Also add *.o* and *.e* for MSI output
     if (use.hpc) use_git_ignore(ignores = c("*.o*", "*.e*"))
     
+    ## Push to github, if called
+    if (use.github) {
+      use_github()
+      
+    }
+    
   }
   
   # Notify the user
@@ -207,7 +238,7 @@ new_poster <- function(project.name, dir = ".", use.git = TRUE, use.hpc = FALSE)
 #' @import usethis
 #' @export
 #' 
-new_package <- function(project.name, dir = ".", use.git = TRUE) {
+new_package <- function(project.name, dir = ".", use.hpc = FALSE, use.git = TRUE, use.github = TRUE) {
   
   ## Error
   stopifnot(is.character(project.name))
@@ -226,7 +257,7 @@ new_package <- function(project.name, dir = ".", use.git = TRUE) {
   ## Create a readme
   use_readme_rmd(open = FALSE)
   # Create a license
-  use_mit_license(name = "Author")
+  use_mit_license("Author")
   
   ## Initialize a git repo, if called
   if (use.git) {
@@ -235,6 +266,12 @@ new_package <- function(project.name, dir = ".", use.git = TRUE) {
     
     ## Set results and figures and readme to gitignore
     use_git_ignore(ignores = "README.Rmd")
+    
+    ## Push to github, if called
+    if (use.github) {
+      use_github()
+      
+    }
     
   }
   

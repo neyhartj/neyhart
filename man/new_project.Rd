@@ -9,11 +9,29 @@
 \usage{
 new_project(project.name, dir = ".", type = c("analysis", "poster", "package"))
 
-new_analysis(project.name, dir = ".", use.git = TRUE, use.hpc = TRUE)
+new_analysis(
+  project.name,
+  dir = ".",
+  use.hpc = TRUE,
+  use.git = TRUE,
+  use.github = TRUE
+)
 
-new_poster(project.name, dir = ".", use.git = TRUE, use.hpc = FALSE)
+new_poster(
+  project.name,
+  dir = ".",
+  use.hpc = FALSE,
+  use.github = TRUE,
+  use.git = TRUE
+)
 
-new_package(project.name, dir = ".", use.git = TRUE)
+new_package(
+  project.name,
+  dir = ".",
+  use.hpc = FALSE,
+  use.git = TRUE,
+  use.github = TRUE
+)
 }
 \arguments{
 \item{project.name}{The name of the project.}
