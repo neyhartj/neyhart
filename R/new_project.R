@@ -85,6 +85,8 @@ new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE
   use_directory(path = "Data")
   use_directory(path = "Figures")
   use_directory(path = "Results")
+  # Rename the R directory to "Scripts"
+  invisible(file.rename(from = "R/", to = "Scripts/"))
   
   ## Create a readme
   use_readme_rmd(open = FALSE)
