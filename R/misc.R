@@ -129,3 +129,28 @@ format_numbers <- function(x, signif.digits = 3L) {
 }
 
 
+
+#' Search for a directory in a path
+#' 
+#' @description 
+#' Find the full path of a directory in the path of the current working directory
+#' 
+#' @param pattern A character pattern of the directory to search for
+#' 
+#' @export
+#' 
+#' 
+find_dir <- function(pattern) {
+  stopifnot(is.character(pattern))
+  cwd <- getwd()
+  cwd_split <- strsplit(cwd, "/")[[1]]
+  where_dir <- which(grepl(pattern = pattern, x = cwd_split))
+  paste0(cwd_split[seq_len(where_dir)], collapse = "/")
+}
+
+
+
+
+
+
+
