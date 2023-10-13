@@ -1,0 +1,4 @@
+name: Lab Overview Document Template
+description: >
+   An R Markdown template for writing lab documents. Borrowed from the Steve Miller "statements" template
+create_dir: FALSE

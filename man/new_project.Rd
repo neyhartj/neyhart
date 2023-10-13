@@ -53,10 +53,10 @@ The function supports the creation of projects of the following types:
 }
 \section{Functions}{
 \itemize{
-\item \code{new_analysis}: 
+\item \code{new_analysis()}: 
 
-\item \code{new_poster}: 
+\item \code{new_poster()}: 
 
-\item \code{new_package}: 
+\item \code{new_package()}: 
+
 }}
-

@@ -24,6 +24,6 @@ and is easier for extracting coefficients from a fitted model object
 }
 \section{Functions}{
 \itemize{
-\item \code{fct_contr_check_trt}: 
-}}
+\item \code{fct_contr_check_trt()}: 
 
+}}
