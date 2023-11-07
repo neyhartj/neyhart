@@ -7,7 +7,15 @@
 \alias{new_package}
 \title{Create a new project}
 \usage{
-new_project(project.name, dir = ".", type = c("analysis", "poster", "package"))
+new_project(
+  project.name,
+  dir = ".",
+  type = c("analysis", "poster", "package"),
+  use.hpc = FALSE,
+  use.git = TRUE,
+  use.github = TRUE,
+  use.pkgdown = FALSE
+)
 
 new_analysis(
   project.name,
@@ -21,14 +29,14 @@ new_poster(
   project.name,
   dir = ".",
   use.hpc = FALSE,
-  use.github = TRUE,
-  use.git = TRUE
+  use.git = TRUE,
+  use.github = TRUE
 )
 
 new_package(
   project.name,
   dir = ".",
-  use.hpc = FALSE,
+  use.pkgdown = TRUE,
   use.git = TRUE,
   use.github = TRUE
 )
@@ -37,6 +45,14 @@ new_package(
 \item{project.name}{The name of the project.}
 
 \item{dir}{The root directory of the new project.}
+
+\item{type}{The type of project}
+
+\item{use.hpc}{Logical. Should scripts be provided to run analysis on SCINet?}
+
+\item{use.git}{Initialize a git repository?}
+
+\item{use.github}{Connect to github?}
 }
 \description{
 This function performs the setup for creating new projects of various types, 

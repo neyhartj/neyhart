@@ -6,6 +6,10 @@
 #' 
 #' @param project.name The name of the project. 
 #' @param dir The root directory of the new project.
+#' @param type The type of project
+#' @param use.hpc Logical. Should scripts be provided to run analysis on SCINet?
+#' @param use.git Initialize a git repository?
+#' @param use.github Connect to github?
 #' 
 #' @details 
 #' The function supports the creation of projects of the following types:
@@ -21,7 +25,8 @@
 #' 
 #' @export
 #' 
-new_project <- function(project.name, dir = ".", type = c("analysis", "poster", "package")) {
+new_project <- function(project.name, dir = ".", type = c("analysis", "poster", "package"), 
+                        use.hpc = FALSE, use.git = TRUE, use.github = TRUE, use.pkgdown = FALSE) {
   
   ## Error handling
   stopifnot(is.character(project.name))
@@ -30,6 +35,8 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
   
   # Match arguments
   type <- match.arg(type)
+  # Capture additional arguments
+  args <- list(...)
   
   ## Prompt user for using git or msi
   use_git <- ui_yeah("Initialize a git repository?")
@@ -54,6 +61,8 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
   
   ## Choose function based on the project type
   fun <- switch(type, analysis = new_analysis, poster = new_poster, package = new_package)
+  # Create the expression to evaluate
+  
   # Run the function
   fun(project.name = project.name, dir = dir, use.git = use_git, use.github = use_github, use.hpc = use_hpc)
          
@@ -62,45 +71,53 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
 #' @describeIn new_project
 #' 
 #' @import usethis
-#' @export
+#' @import workflowr
 #' 
 new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE, use.github = TRUE) {
   
   ## Error
   stopifnot(is.character(project.name))
   stopifnot(is.character(dir))
+  stopifnot(dir.exists(dir))
   stopifnot(is.logical(use.git))
   stopifnot(is.logical(use.hpc))
+  stopifnot(is.logical(use.github))
+  
 
   # Create a path for the new project
   path <- file.path(dir, project.name)
   
-  ## Create the project
-  create_project(path = path, rstudio = TRUE, open = FALSE)
+  # Create a workflowr project
+  wflow_start(directory = path, git = FALSE, change_wd = FALSE)
   
-  # Set the active project to this project
-  proj_set(path = path)
+  # Set the project
+  proj_path <- proj_set(path = path)
   
-  ## Create folders in the directory
-  use_directory(path = "Data")
-  use_directory(path = "Figures")
-  use_directory(path = "Results")
-  # Rename the R directory to "Scripts"
-  invisible(file.rename(from = "R/", to = "Scripts/"))
-  
+  # Add a figures directory
+  use_directory(path = "output/figures")
   ## Create a readme
   use_readme_rmd(open = FALSE)
   
-  # Create startup.R and functions.R
-  use_template(template = "project/startup.R", save_as = "startup.R", package = "neyhart")
-  use_template(template = "project/functions.R", save_as = "functions.R", package = "neyhart")
+  # Create a functions script
+  func_script <- file.path(proj_path, "functions.R")
+  file.create(func_script)
+  ui_done("Creating {basename(func_script)}")
+  # Add lines to it
+  text <- c(paste0("## ", project.name), "##", "## This is a script with ad hoc functions for this project",
+            "##")
+  writeLines(text = text, con = func_script, sep = "\n")
   
-  # If using MSI; use the startup_MSI template
+  # Edit the Rprofile file
+  text <- c("source('functions.R')", "library(tidyverse)", "proj_dir <- getwd()",
+            "data_dir <- file.path(proj_dir, 'data')", "results_dir <- file.path(proj_dir, 'output')",
+            "fig_dir <- file.path(proj_dir, 'analysis')")
+  write_union(path = file.path(proj_path, ".Rprofile"), lines = text, quiet = TRUE)
+  
+  # If using SCInet; use the startup_MSI template
   if (use.hpc) {
     # use_template(template = "project/startup_MSI.R", save_as = "startup_MSI.R", package = "neyhart")
     # use_template(template = "project/pbs_template.sh", save_as = "pbs_template.sh", package = "neyhart")
     
-    use_template(template = "project/startup_SCINet.R", save_as = "startup_SCINet.R", package = "neyhart")
     use_template(template = "project/scinet_template.sh", save_as = "scinet_template.sh", package = "neyhart")
     
   }
@@ -111,13 +128,7 @@ new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE
     use_git()
 
     ## Set results and figures and readme to gitignore
-    use_git_ignore(ignores = c(".Rhistory", ".Rdata", ".Ruserdata", ".DS_Store"))
-    use_git_ignore(ignores = c("Figures", "Results"))
     use_git_ignore(ignores = "README.Rmd")
-    
-    ## Also add *.o* and *.e* for MSI output
-    if (use.hpc) use_git_ignore(ignores = c("*.o*", "*.e*"))
-    
     
     ## Push to github, if called
     if (use.github) {
@@ -141,7 +152,7 @@ new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE
 #' @import usethis
 #' @export
 #' 
-new_poster <- function(project.name, dir = ".", use.hpc = FALSE, use.github = TRUE, use.git = TRUE) {
+new_poster <- function(project.name, dir = ".", use.hpc = FALSE, use.git = TRUE, use.github = TRUE) {
   
   ## Error
   stopifnot(is.character(project.name))
@@ -240,7 +251,7 @@ new_poster <- function(project.name, dir = ".", use.hpc = FALSE, use.github = TR
 #' @import usethis
 #' @export
 #' 
-new_package <- function(project.name, dir = ".", use.hpc = FALSE, use.git = TRUE, use.github = TRUE) {
+new_package <- function(project.name, dir = ".", use.pkgdown = TRUE, use.git = TRUE, use.github = TRUE) {
   
   ## Error
   stopifnot(is.character(project.name))
