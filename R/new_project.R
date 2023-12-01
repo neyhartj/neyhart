@@ -25,8 +25,7 @@
 #' 
 #' @export
 #' 
-new_project <- function(project.name, dir = ".", type = c("analysis", "poster", "package"), 
-                        use.hpc = FALSE, use.git = TRUE, use.github = TRUE, use.pkgdown = FALSE) {
+new_project <- function(project.name, dir = ".", type = c("analysis", "poster", "package")) {
   
   ## Error handling
   stopifnot(is.character(project.name))
@@ -35,21 +34,13 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
   
   # Match arguments
   type <- match.arg(type)
-  # Capture additional arguments
-  args <- list(...)
   
   ## Prompt user for using git or msi
   use_git <- ui_yeah("Initialize a git repository?")
   
   ## Prompt for github
   use_github <- ui_yeah("Create and push to a GitHub repository?")
-  
-  # # MSI only if the project type is analysis
-  # if (type == "analysis") {
-  #   use_msi <- ui_yeah("Provide templates for submitting scripts to MSI?")
-  # } else {
-  #   use_msi <- FALSE
-  # }
+
   
   # SCINET only if the project type is analysis
   if (type == "analysis") {
@@ -58,14 +49,27 @@ new_project <- function(project.name, dir = ".", type = c("analysis", "poster", 
     use_hpc <- FALSE
   }
   
+  # pkgdown only if the project type is package
+  if (type == "package") {
+    use_pkgdown <- ui_yeah("Use pkgdown to manage the package?")
+  } else {
+    use_pkgdown <- FALSE
+  }
+  
   
   ## Choose function based on the project type
-  fun <- switch(type, analysis = new_analysis, poster = new_poster, package = new_package)
-  # Create the expression to evaluate
-  
-  # Run the function
-  fun(project.name = project.name, dir = dir, use.git = use_git, use.github = use_github, use.hpc = use_hpc)
-         
+  if (type == "analysis") {
+    new_analysis(project.name = project.name, dir = dir, use.hpc = use_hpc, use.git = use_git,
+                 use.github = use_github)
+    
+  } else if (type == "poster") {
+    new_poster(project.name = project.name, dir = dir, use.hpc = use_hpc, use.git = use_git, use.github = use_github)
+    
+  } else {
+    new_package(project.name = project.name, dir = dir, use.pkgdown = use_pkgdown, use.git = use_git, use.github = use_github)
+    
+  }
+      
 } # End
 
 #' @describeIn new_project
@@ -93,8 +97,6 @@ new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE
   # Set the project
   proj_path <- proj_set(path = path)
   
-  # Add a figures directory
-  use_directory(path = "output/figures")
   ## Create a readme
   use_readme_rmd(open = FALSE)
   
@@ -150,7 +152,6 @@ new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE
 #' @describeIn new_project
 #' 
 #' @import usethis
-#' @export
 #' 
 new_poster <- function(project.name, dir = ".", use.hpc = FALSE, use.git = TRUE, use.github = TRUE) {
   
@@ -249,7 +250,6 @@ new_poster <- function(project.name, dir = ".", use.hpc = FALSE, use.git = TRUE,
 #' @describeIn new_project
 #' 
 #' @import usethis
-#' @export
 #' 
 new_package <- function(project.name, dir = ".", use.pkgdown = TRUE, use.git = TRUE, use.github = TRUE) {
   

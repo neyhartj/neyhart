@@ -7,15 +7,7 @@
 \alias{new_package}
 \title{Create a new project}
 \usage{
-new_project(
-  project.name,
-  dir = ".",
-  type = c("analysis", "poster", "package"),
-  use.hpc = FALSE,
-  use.git = TRUE,
-  use.github = TRUE,
-  use.pkgdown = FALSE
-)
+new_project(project.name, dir = ".", type = c("analysis", "poster", "package"))
 
 new_analysis(
   project.name,
