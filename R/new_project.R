@@ -100,17 +100,8 @@ new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE
   ## Create a readme
   use_readme_rmd(open = FALSE)
   
-  # Create a functions script
-  func_script <- file.path(proj_path, "functions.R")
-  file.create(func_script)
-  ui_done("Creating {basename(func_script)}")
-  # Add lines to it
-  text <- c(paste0("## ", project.name), "##", "## This is a script with ad hoc functions for this project",
-            "##")
-  writeLines(text = text, con = func_script, sep = "\n")
-  
   # Edit the Rprofile file
-  text <- c("source('functions.R')", "library(tidyverse)", "proj_dir <- getwd()",
+  text <- c("library(tidyverse)", "proj_dir <- getwd()",
             "data_dir <- file.path(proj_dir, 'data')", "results_dir <- file.path(proj_dir, 'output')",
             "fig_dir <- file.path(proj_dir, 'analysis')")
   write_union(path = file.path(proj_path, ".Rprofile"), lines = text, quiet = TRUE)

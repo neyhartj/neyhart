@@ -1,6 +1,6 @@
 Package: neyhart
 Title: My collection of useful R functions.
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Jeff", "Neyhart", email = "neyhartje@gmail.com", role = c("aut", "cre"))
 Description: A package of miscellaneous R functions that I use frequently in projects or leisure (nerd!). Functions are for a variety of purposes, including generating colors for plotting, file conversion, etc.
 Depends:
