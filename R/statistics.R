@@ -434,5 +434,18 @@ ACF.lmerMod <- function (object, maxLag, resType = c("pearson", "response",  "no
 
 
 
+#' Inverse logit transformation
+#' 
+#' 
+inv_logit <- function(x) {
+  x1 <- exp(x) / (1 + exp(x))
+  x1[x1 == Inf] <- 1
+  x1[x1 == -Inf] <- 0
+  return(x1)
+}
+
+
+
+
 
 
