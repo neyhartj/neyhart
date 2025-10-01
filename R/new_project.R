@@ -91,12 +91,23 @@ new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE
   # Create a path for the new project
   path <- file.path(dir, project.name)
   
-  # Create a workflowr project
-  wflow_start(directory = path, git = FALSE, change_wd = FALSE)
+  # Create this directory and start a project
+  create_project(path = path, rstudio = TRUE, open = FALSE)
   
   # Set the project
-  proj_path <- proj_set(path = path)
+  proj_set(path = path)
+  proj_path <- proj_path()
+  proj_path <- as.character(proj_path)
   
+  # Quietly remove the R subidr
+  system(paste0("rmdir ", file.path(proj_path, "R")))
+  
+  # A list of subfolders to create
+  subdirs <- c("data", "code", "results", "figures")
+  for (subdir in subdirs) {
+    use_directory(path = subdir)
+  }
+
   ## Create a readme
   use_readme_rmd(open = FALSE)
   
@@ -104,7 +115,9 @@ new_analysis <- function(project.name, dir = ".", use.hpc = TRUE, use.git = TRUE
   text <- c("library(tidyverse)", "proj_dir <- getwd()",
             "data_dir <- file.path(proj_dir, 'data')", "results_dir <- file.path(proj_dir, 'output')",
             "fig_dir <- file.path(proj_dir, 'analysis')")
-  write_union(path = file.path(proj_path, ".Rprofile"), lines = text, quiet = TRUE)
+  
+  # Create an ".Rprofile" file
+  write_over(path = ".Rprofile", lines = text)
   
   # If using SCInet; use the startup_MSI template
   if (use.hpc) {

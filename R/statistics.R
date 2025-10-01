@@ -447,5 +447,31 @@ inv_logit <- function(x) {
 
 
 
+#' Find the n extreme values from a data.frame
+#' 
+#' @param x A data frame
+#' @param n The number of extreme value
+#' @param col The name of the column containing the values
+#' 
+#' @importFrom dplyr bind_rows
+#' 
+#' @export
+#' 
+extreme_n <- function(x, n, col) {
+  desc_order <- order(x[[col]], decreasing = TRUE)
+  asc_order <- order(x[[col]], decreasing = FALSE)
+  
+  top <- x[desc_order[seq_len(n)], , drop = FALSE]
+  bottom <- x[asc_order[seq_len(n)], , drop = FALSE]
+  bind_rows(top, bottom)
+  
+}
+
+
+# A
+
+
+
+
 
 
